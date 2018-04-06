@@ -1,0 +1,2 @@
+$foo = <STDIN>
+print($foo)
