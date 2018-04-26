@@ -5,22 +5,44 @@ import re
 from perl_lexer import tokens
 from perl_lexer import errors_arr
 
-precedence = (
+'''precedence = (
 ('right', 'ASSIGN'),
 ('right', 'EQ'),
 ('left', 'NEQ'),
 ('left', 'LESS_THAN', 'LESS_OR_EQUAL', 'GREATER_OR_EQUAL', 'MORE_THAN'),
 ('left', 'PLUS', 'MINUS'),
 ('left', 'BETWEEN', 'STAR')
-)
+)'''
 
 parse_err = []
 
+
+class Stack:
+    def __init__(self, list):
+        self.list = list
+
+    def push(self, tup):
+        self.list.append(tup)
+
+    def pop(self):
+        self.list.pop()
+
+
+class Tup:
+    def __init__(self, variable='', value='None', type='None'):
+        self.variable = variable
+        self.value = value
+        self.type = type
+
+    def to_string(self):
+        return 'name: ' + self.variable + ' value: ' + self.value + ' type: '+ self.type
+
 class Node:
-    def __init__(self,name,value='None',children=None):
+    def __init__(self,name,value='None',type='None', children=None):
         self.value = value
         self.name = name
         self.leaf = False
+        self.type = type
         if children:
             self.children = children
         else:
@@ -30,103 +52,146 @@ class Node:
 
     def get_values(self):
         if (self.value is not None):
-            return '"' + self.name + ' value: ' + self.value +'"'
+            return '"' + self.name + ' value: ' + self.value + ' type: ' + self.type + '"'
         else:
          return '"' + self.name + '"'
 
     def traverse(self):
         if self.children:
             for child in self.children:
-                    print(self.name, 'father of', child.get_values())
+                    #print(self.name, 'father of', child.get_values())
                     child.traverse()
+
+    def travel_and_evaluate(self):
+        if(not self.children):
+            print(self.value, self.name, "Leaf")
+        else:
+            for child in self.children:
+                child.travel_and_evaluate()
+
+    def all_leaves_type(self):
+        if(not self.children):
+            return self.type
+        if(self.children):
+            return True
+        else:
+            for child in self.children:
+                return self.type == child.all_leaves_type()
 
 
 def p_program(p):
     'program : declarationList'
-    p[0] = Node('program', None, [p[1]])
+    p[0] = Node('program', None, None,  [p[1]])
     #print(p[0].traverse())
 
 def p_declarationList(p):
     'declarationList :  declaration declarationList'
     #print("declaration list 1")
-    p[0] = Node('rec declarationList', None, [p[1], p[2]])
+    p[0] = Node('rec declarationList', None, None, [p[1], p[2]])
 
 def p_declarationList2(p):
     'declarationList : declaration'
     #print("declaration list 2")
-    p[0] = Node('declarationList', None, [p[1]])
+    p[0] = Node('declarationList', None, None, [p[1]])
 
 def p_declaration(p):
     'declaration : varDeclaration'
     #print("dec")
-    p[0] = Node('varDeclaration', None, [p[1]])
+    p[0] = Node('varDeclaration', None, None, [p[1]])
 
 def p_declaration2(p):
     'declaration : statement'
     #print("dec2")
-    p[0] = Node('declaration statement', None, [p[1]])
+    p[0] = Node('declaration statement', None, None, [p[1]])
 
 def p_declaration3(p):
     'declaration : constDeclaration'
     #print("dec3")
-    p[0] = Node('const declaration', None, [p[1]])
+    p[0] = Node('const declaration', None,  None, [p[1]])
 
 def p_declaration4(p):
     'declaration : funcDeclaration'
     #print("dec4")
-    p[0] = Node('function declaration', None, [p[1]])
+    p[0] = Node('function declaration', None, None, [p[1]])
 
 def p_variable(p):
     'variable : DOLLAR IDENTIFIER'
     #print("var")
     dollar = Node('$', p[1])
     id = Node('ID', p[2])
-    p[0] = Node('variable', None, [dollar, id])
+    p[0] = Node('variable', None, None, [dollar, id])
+
 
 def p_varDeclaration(p):
+    'varDeclaration : variable ASSIGN sumExp'
+    #print("vardec")
+    tup = Tup()
+    assign = Node('=', p[2])
+    p[0] = Node('variable declaration', None, None, [p[1], assign, p[3]])
+    varname = ''
+    for i in range(len(p[1].children)):
+        varname += p[1].children[i].value
+    tup.variable = varname
+    #print(tup.__dict__)
+    #print(p[3].traverse())
+
+'''def p_varDeclaration1(p):
     'varDeclaration : variable ASSIGN variableType'
     #print("vardec")
+    tup = Tup()
     assign = Node('=', p[2])
-    p[0] = Node('variable declaration', None, [p[1], assign, p[3]])
+    p[0] = Node('variable declaration', None, None, [p[1], assign, p[3]])
+    varname = ''
+    for i in range(len(p[1].children)):
+        varname += p[1].children[i].value
+    tup.variable = varname
+    tup.value = p[3].children[0].value
+    tup.type = p[3].children[0].type
+    stack.push(tup)'''
+
 
 def p_varDeclaration2(p):
     'varDeclaration : variable ASSIGN STDIN'
     #print("vardec2")
     assign = Node('=', p[2])
     stdin = Node('stdin', p[3])
-    p[0] = Node('variable to stdin', None, [p[1], assign, stdin])
+    p[0] = Node('variable to stdin', None,  None, [p[1], assign, stdin])
+    varname = ''
+    for i in range(len(p[1].children)):
+        varname += p[1].children[i].value
 
-def p_number(p):
-    'number : INTEGER'
-    #print("num")
-    p[0] = Node('number int',p[1])
-
-def p_number2(p):
-    'number : FLOAT'
-    p[0] = Node('number float',p[1])
 
 def p_variableType(p):
     'variableType : number'
     #print("type number")
-    p[0] = Node('numerical variable', None, [p[1]])
+    p[0] = Node('numerical variable', None, p[1].type, [p[1]])
+
+def p_number(p):
+    'number : INTEGER'
+    #print("num")
+    p[0] = Node('number',p[1], 'Int')
+
+def p_number2(p):
+    'number : FLOAT'
+    p[0] = Node('number',p[1], 'Float')
 
 def p_variableType2(p):
     'variableType : STRING'
     #print("type string")
-    string = Node('str', p[1])
-    p[0] = Node('string variable', None, [string])
+    string = Node('str', p[1], 'String')
+    p[0] = Node('string variable', None, string.type, [string])
 
 def p_variableType3(p):
     'variableType : TRUE'
     #print("type true")
-    t = Node('true', p[1])
-    p[0] = Node('true variable', None, [t])
+    t = Node('true', p[1], 'Bool')
+    p[0] = Node('true variable', None, t.type, [t])
 
 def p_variableType4(p):
     'variableType : FALSE'
     #print("type false")
-    f = Node('false', p[1])
-    p[0] = Node('false variable', None, [f])
+    f = Node('false', p[1], 'Bool')
+    p[0] = Node('false variable', None, f.type,  [f])
 
 def p_constDeclaration(p):
     'constDeclaration : USE CONSTANT IDENTIFIER CONST_ASSIGN variableType'
@@ -134,7 +199,7 @@ def p_constDeclaration(p):
     c = Node('const', p[2])
     id = Node('id', p[3])
     ca = Node('const assign', p[4])
-    p[0] = Node('constant declaration', None, [use, c, id, ca ,p[5]])
+    p[0] = Node('constant declaration', None, None, [use, c, id, ca ,p[5]])
     #print("constant")
 
 def p_funcDeclaration(p):
@@ -158,14 +223,20 @@ def p_funcDeclaration2(p):
 def p_sumLessExpression(p):
     'sumLessExpression : variable PLUS_ONE'
     #print("++")
-    p_one = Node('++', p[2])
+    p_one = Node('++', p[2], 'Int')
     p[0] = Node('plus one', None, [p[1], p_one ])
+    '''temp_tuple = stack.pop()
+    temp_tuple.value += 1
+    stack.push(temp_tuple)'''
 
 def p_sumLessExpression1(p):
     'sumLessExpression : variable MINUS_ONE'
     #print("--")
-    p_one = Node('--', p[2])
+    p_one = Node('--', p[2], 'Int')
     p[0] = Node('minus one', None, [p[1], p_one ])
+    '''temp_tuple = stack.pop()
+    temp_tuple.value -= 1
+    stack.push(temp_tuple)'''
 
 def p_statement(p):
     'statement : expression'
@@ -242,71 +313,56 @@ def p_expression3(p):
     #print("exp to sumless")
     p[0] = Node('expression sumless ++ -- ', None, [p[1]])
 
-'''
-def p_logicalExp(p):
-    'logicalExp : TRUE'
-    #print("log true")
-
-def p_logicalExp2(p):
-    'logicalExp : FALSE'
-    #print("log false")
-'''
 def p_logicalExp3(p):
     'logicalExp : TRUE OR andExp'
     #print("true OR")
-    t = Node('true',p[1])
-    o = Node('or',p[2])
-    p[0] = Node('logical exp true', None, [t,o, p[3]])
+    t = Node('true',p[1], 'Bool')
+    o = Node('or',p[2],"logical")
+    print()
+    p[0] = Node('logical exp true', None, 'Bool' [t,o, p[3]])
 
 def p_logicalExp4(p):
     'logicalExp : FALSE OR andExp'
     #print("false OR")
-    f = Node('false',p[1])
+    f = Node('false',p[1], 'Bool')
     o = Node('or', p[2])
-    p[0] = Node('logical exp false', None, [f,o, p[3]])
+    p[0] = Node('logical exp false', None, 'Bool', [f,o, p[3]])
 
 def p_logicalExp5(p):
     'logicalExp : andExp'
     #print("logical to and")
     p[0] = Node('logical exp and', None, [p[1]])
 
-#keep 1-2 or 3-4
-#def p_andExp1(p):
-#    'andExp : TRUE'
-#    #print("and true")
 
-#def p_andExp2(p):
-#    'andExp : FALSE'
-#    #print("and false")
 
 def p_andExp3(p):
     'andExp : TRUE AND compExp'
     #print("and true")
-    t = Node('true', p[1])
+    t = Node('true', p[1], 'Bool')
     a = Node('and',  p[2])
-    p[0] = Node('and exp true', None, [t,a, p[3]])
+    p[0] = Node('and exp true', None, t.type, [t,a, p[3]])
 
 def p_andExp4(p):
     'andExp : FALSE AND compExp'
     #print("and false")
-    f = Node('false',  p[1])
+    f = Node('false',  p[1], 'Bool')
     a = Node('and',  p[2])
-    p[0] = Node('and exp false', None, [f,a, p[3]])
+    p[0] = Node('and exp false', None, t.type, [f,a, p[3]])
 
 def p_andExp5(p):
     'andExp : compExp'
     #print("and to comp")
-    p[0] = Node('and exp comparison', None, [p[1]])
+    p[0] = Node('and exp comparison', None, None, [p[1]])
 
 def p_compExp(p):
     'compExp : sumExp compSign sumExp'
     #print("comparison")
-    p[0] = Node('compexp', None, [p[1], p[2], p[3]])
+    p[0] = Node('compexp', None, None, [p[1], p[2], p[3]])
 
 def p_compExp2(p):
     'compExp : sumExp'
     #print("assignation")
-    p[0] = Node('compExp to sumExp', None, [p[1]])
+    p[0] = Node('compExp to sumExp', None, None, [p[1]])
 
 def p_compSign(p):
     'compSign : LESS_OR_EQUAL'
@@ -347,12 +403,15 @@ def p_compSign6(p):
 def p_sumExp(p):
     'sumExp : term sumSign sumExp'
     #print("sum exp")
-    p[0] = Node('sumExp', None, [p[1], p[2], p[3]])
+    p[0] = Node('sumExp', None, None, [p[1], p[2], p[3]])
+    print(p[0].all_leaves_type())
+    print("\n")
 
 def p_sumExp2(p):
     'sumExp : term'
     #print("term")
-    p[0] = Node('sumExp term', None, [p[1]])
+    p[0] = Node('sumExp term', None, None, [p[1]])
+    print(p[0].all_leaves_type())
 
 def p_sumSign(p):
     'sumSign : MINUS'
@@ -369,18 +428,14 @@ def p_sumSign2(p):
 def p_term(p):
     'term : multiNegExp multiSign term'
     #print("term")
-    p[0] = Node('term to multiNegExp', None, [p[1], p[2], p[3]])
+    p[0] = Node('term to multiNegExp', None, None, [p[1], p[2], p[3]])
 
 def p_term2(p):
     'term : multiNegExp'
     #print("multineg")
-    p[0] = Node('term - multiNegExp', None, [p[1]])
+    p[0] = Node('term - multiNegExp', None, None, [p[1]])
 
-def p_multiSign(p):
-    'multiSign : EXP'
-    #print("exp")
-    p[0] = Node('** ', p[1])
-    #p[0] = Node('EXP', None, [exp])
+
 
 def p_multiSign2(p):
     'multiSign : STAR'
@@ -397,12 +452,12 @@ def p_multiSign3(p):
 def p_multiNegExp(p):
     'multiNegExp : unaryOp multiNegExp'
     #print("unary")
-    p[0] = Node('multineg - unary', None, [p[1], p[2]])
+    p[0] = Node('multineg - unary', None,None, [p[1], p[2]])
 
 def p_multiNegExp2(p):
     'multiNegExp : factor'
     #print("factor")
-    p[0] = Node('multineg - factor', None, [p[1]])
+    p[0] = Node('multineg - factor', None, None, [p[1]])
 
 def p_unaryOp(p):
     'unaryOp : MINUS'
@@ -419,12 +474,12 @@ def p_unaryOp2(p):
 def p_factor(p):
     'factor : variable'
     #print("variable")
-    p[0] = Node('factor - variable', None, [p[1]])
+    p[0] = Node('factor - variable', None, None, [p[1]])
 
 def p_factor2(p):
     'factor : variableType'
     #print("VTYPE")
-    p[0] = Node('factor - variableType', None, [p[1]])
+    p[0] = Node('factor - variableType', None, None, [p[1]])
 
 def p_factor3(p):
     'factor : IDENTIFIER'
@@ -438,7 +493,7 @@ def p_factor4(p):
     #print("expression")
     lp = Node('left par', p[1])
     rp = Node('right par', p[3])
-    p[0] = Node('factor - exp', None, [lp, p[2], rp])
+    p[0] = Node('factor - exp', None, None, [lp, p[2], rp])
 
 def p_error(p):
     if p:
@@ -479,8 +534,14 @@ print ("you chose: " + a + "\n OUTPUT: \n")
 file_test = codecs.open(a, 'r', 'utf-8')
 str = file_test.read()
 file_test.close()
+stack = Stack([])
 parser = yacc.yacc(start="program", method="SLR")
 result = parser.parse(str)
+print("Stack\n")
+for item in stack.list[::-1]:
+    print(item.to_string())
+
+print("\n\n AST")
 if (not errors_arr):
     pass
     if (not parse_err):

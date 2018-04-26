@@ -18,7 +18,7 @@ tokens = [
 '''
 tokens = [
 'STDIN','AND','PLUS_ONE', 'MINUS_ONE', 'STRING','ASSIGN','BETWEEN','DOLLAR',
-'EQ','EXP' ,'FLOAT', 'CONST_ASSIGN','GREATER_OR_EQUAL','IDENTIFIER',
+'EQ','FLOAT', 'CONST_ASSIGN','GREATER_OR_EQUAL','IDENTIFIER',
 'INTEGER','LEFT_BRACE','LEFT_PAR' ,'LESS_OR_EQUAL','LESS_THAN','MINUS',
 'MORE_THAN' ,'NEQ','OR','PLUS',
 'RIGHT_BRACE','RIGHT_PAR',
@@ -57,7 +57,7 @@ t_DOLLAR = r'\$'
 t_PLUS_ONE = r'\+\+'
 t_MINUS_ONE = r'--'
 t_EQ = r'=='
-t_EXP = r'\*\*'
+#t_EXP = r'\*\*'
 t_FLOAT = r'[+-]?[0-9]+\.[0-9]+'
 t_GREATER_OR_EQUAL = r'>='
 t_INTEGER = r'[0-9]+'

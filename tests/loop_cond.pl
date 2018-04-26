@@ -4,6 +4,7 @@ $abc--
 this is a multiline comment
 yes
 */
+$foo = 0 
 while($foo > 2){
   #this is a single line comment
   print($foo++)

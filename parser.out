@@ -11,11 +11,11 @@ Rule 5     declaration -> statement
 Rule 6     declaration -> constDeclaration
 Rule 7     declaration -> funcDeclaration
 Rule 8     variable -> DOLLAR IDENTIFIER
-Rule 9     varDeclaration -> variable ASSIGN variableType
+Rule 9     varDeclaration -> variable ASSIGN sumExp
 Rule 10    varDeclaration -> variable ASSIGN STDIN
-Rule 11    number -> INTEGER
-Rule 12    number -> FLOAT
-Rule 13    variableType -> number
+Rule 11    variableType -> number
+Rule 12    number -> INTEGER
+Rule 13    number -> FLOAT
 Rule 14    variableType -> STRING
 Rule 15    variableType -> TRUE
 Rule 16    variableType -> FALSE
@@ -54,50 +54,48 @@ Rule 48    sumSign -> MINUS
 Rule 49    sumSign -> PLUS
 Rule 50    term -> multiNegExp multiSign term
 Rule 51    term -> multiNegExp
-Rule 52    multiSign -> EXP
-Rule 53    multiSign -> STAR
-Rule 54    multiSign -> BETWEEN
-Rule 55    multiNegExp -> unaryOp multiNegExp
-Rule 56    multiNegExp -> factor
-Rule 57    unaryOp -> MINUS
-Rule 58    unaryOp -> PLUS
-Rule 59    factor -> variable
-Rule 60    factor -> variableType
-Rule 61    factor -> IDENTIFIER
-Rule 62    factor -> LEFT_PAR expression RIGHT_PAR
+Rule 52    multiSign -> STAR
+Rule 53    multiSign -> BETWEEN
+Rule 54    multiNegExp -> unaryOp multiNegExp
+Rule 55    multiNegExp -> factor
+Rule 56    unaryOp -> MINUS
+Rule 57    unaryOp -> PLUS
+Rule 58    factor -> variable
+Rule 59    factor -> variableType
+Rule 60    factor -> IDENTIFIER
+Rule 61    factor -> LEFT_PAR expression RIGHT_PAR
 
 Terminals, with rules where they appear
 
 AND                  : 35 36
 ASSIGN               : 9 10
-BETWEEN              : 54
+BETWEEN              : 53
 CONSTANT             : 17
 CONST_ASSIGN         : 17
 DOLLAR               : 8
 ELSE                 : 27
 EQ                   : 44
-EXP                  : 52
 FALSE                : 16 33 36
-FLOAT                : 12
+FLOAT                : 13
 GREATER_OR_EQUAL     : 43
-IDENTIFIER           : 8 17 61
+IDENTIFIER           : 8 17 60
 IF                   : 27 28
-INTEGER              : 11
+INTEGER              : 12
 LEFT_BRACE           : 27 27 28 29
-LEFT_PAR             : 18 19 27 28 29 62
+LEFT_PAR             : 18 19 27 28 29 61
 LESS_OR_EQUAL        : 40
 LESS_THAN            : 41
-MINUS                : 48 57
+MINUS                : 48 56
 MINUS_ONE            : 21
 MORE_THAN            : 42
 NEQ                  : 45
 OR                   : 32 33
-PLUS                 : 49 58
+PLUS                 : 49 57
 PLUS_ONE             : 20
 PRINT                : 18 19
 RIGHT_BRACE          : 27 27 28 29
-RIGHT_PAR            : 18 19 27 28 29 62
-STAR                 : 53
+RIGHT_PAR            : 18 19 27 28 29 61
+STAR                 : 52
 STDIN                : 10
 STRING               : 14
 TRUE                 : 15 32 35
@@ -114,26 +112,26 @@ conditionalStmt      : 23
 constDeclaration     : 6
 declaration          : 2 3
 declarationList      : 1 2 27 27 28 29
-expression           : 22 62
-factor               : 18 56
+expression           : 22 61
+factor               : 18 55
 funcDeclaration      : 7
 logicalExp           : 27 28 29 30
 loopStmt             : 24
 matchedif            : 25
-multiNegExp          : 50 51 55
+multiNegExp          : 50 51 54
 multiSign            : 50
-number               : 13
+number               : 11
 program              : 0
 statement            : 5
-sumExp               : 38 38 39 46
+sumExp               : 9 38 38 39 46
 sumLessExpression    : 19 31
 sumSign              : 46
 term                 : 46 47 50
-unaryOp              : 55
+unaryOp              : 54
 unmatchedif          : 26
 varDeclaration       : 4
-variable             : 9 10 20 21 59
-variableType         : 9 17 60
+variable             : 9 10 20 21 58
+variableType         : 17 59
 
 Parsing method: SLR
 
@@ -147,7 +145,7 @@ state 0
     (5) declaration -> . statement
     (6) declaration -> . constDeclaration
     (7) declaration -> . funcDeclaration
-    (9) varDeclaration -> . variable ASSIGN variableType
+    (9) varDeclaration -> . variable ASSIGN sumExp
     (10) varDeclaration -> . variable ASSIGN STDIN
     (22) statement -> . expression
     (23) statement -> . conditionalStmt
@@ -177,25 +175,25 @@ state 0
     (47) sumExp -> . term
     (50) term -> . multiNegExp multiSign term
     (51) term -> . multiNegExp
-    (55) multiNegExp -> . unaryOp multiNegExp
-    (56) multiNegExp -> . factor
-    (57) unaryOp -> . MINUS
-    (58) unaryOp -> . PLUS
-    (59) factor -> . variable
-    (60) factor -> . variableType
-    (61) factor -> . IDENTIFIER
-    (62) factor -> . LEFT_PAR expression RIGHT_PAR
-    (13) variableType -> . number
+    (54) multiNegExp -> . unaryOp multiNegExp
+    (55) multiNegExp -> . factor
+    (56) unaryOp -> . MINUS
+    (57) unaryOp -> . PLUS
+    (58) factor -> . variable
+    (59) factor -> . variableType
+    (60) factor -> . IDENTIFIER
+    (61) factor -> . LEFT_PAR expression RIGHT_PAR
+    (11) variableType -> . number
     (14) variableType -> . STRING
     (15) variableType -> . TRUE
     (16) variableType -> . FALSE
-    (11) number -> . INTEGER
-    (12) number -> . FLOAT
+    (12) number -> . INTEGER
+    (13) number -> . FLOAT
 
     USE             shift and go to state 1
-    PRINT           shift and go to state 7
+    PRINT           shift and go to state 6
     DOLLAR          shift and go to state 24
-    WHILE           shift and go to state 6
+    WHILE           shift and go to state 5
     TRUE            shift and go to state 13
     FALSE           shift and go to state 30
     IF              shift and go to state 28
@@ -208,10 +206,10 @@ state 0
     FLOAT           shift and go to state 32
 
     varDeclaration                 shift and go to state 2
-    variableType                   shift and go to state 3
-    matchedif                      shift and go to state 4
+    variableType                   shift and go to state 7
+    matchedif                      shift and go to state 3
     number                         shift and go to state 11
-    loopStmt                       shift and go to state 5
+    loopStmt                       shift and go to state 4
     logicalExp                     shift and go to state 8
     multiNegExp                    shift and go to state 9
     conditionalStmt                shift and go to state 12
@@ -263,38 +261,6 @@ state 2
 
 state 3
 
-    (60) factor -> variableType .
-
-    RIGHT_PAR       reduce using rule 60 (factor -> variableType .)
-    EXP             reduce using rule 60 (factor -> variableType .)
-    STAR            reduce using rule 60 (factor -> variableType .)
-    BETWEEN         reduce using rule 60 (factor -> variableType .)
-    MINUS           reduce using rule 60 (factor -> variableType .)
-    PLUS            reduce using rule 60 (factor -> variableType .)
-    LESS_OR_EQUAL   reduce using rule 60 (factor -> variableType .)
-    LESS_THAN       reduce using rule 60 (factor -> variableType .)
-    MORE_THAN       reduce using rule 60 (factor -> variableType .)
-    GREATER_OR_EQUAL reduce using rule 60 (factor -> variableType .)
-    EQ              reduce using rule 60 (factor -> variableType .)
-    NEQ             reduce using rule 60 (factor -> variableType .)
-    IF              reduce using rule 60 (factor -> variableType .)
-    WHILE           reduce using rule 60 (factor -> variableType .)
-    USE             reduce using rule 60 (factor -> variableType .)
-    DOLLAR          reduce using rule 60 (factor -> variableType .)
-    TRUE            reduce using rule 60 (factor -> variableType .)
-    FALSE           reduce using rule 60 (factor -> variableType .)
-    PRINT           reduce using rule 60 (factor -> variableType .)
-    STRING          reduce using rule 60 (factor -> variableType .)
-    IDENTIFIER      reduce using rule 60 (factor -> variableType .)
-    LEFT_PAR        reduce using rule 60 (factor -> variableType .)
-    INTEGER         reduce using rule 60 (factor -> variableType .)
-    FLOAT           reduce using rule 60 (factor -> variableType .)
-    $end            reduce using rule 60 (factor -> variableType .)
-    RIGHT_BRACE     reduce using rule 60 (factor -> variableType .)
-
-
-state 4
-
     (25) conditionalStmt -> matchedif .
 
     IF              reduce using rule 25 (conditionalStmt -> matchedif .)
@@ -315,7 +281,7 @@ state 4
     RIGHT_BRACE     reduce using rule 25 (conditionalStmt -> matchedif .)
 
 
-state 5
+state 4
 
     (24) statement -> loopStmt .
 
@@ -337,19 +303,50 @@ state 5
     RIGHT_BRACE     reduce using rule 24 (statement -> loopStmt .)
 
 
-state 6
+state 5
 
     (29) loopStmt -> WHILE . LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE
 
     LEFT_PAR        shift and go to state 40
 
 
-state 7
+state 6
 
     (18) funcDeclaration -> PRINT . LEFT_PAR factor RIGHT_PAR
     (19) funcDeclaration -> PRINT . LEFT_PAR sumLessExpression RIGHT_PAR
 
     LEFT_PAR        shift and go to state 41
+
+
+state 7
+
+    (59) factor -> variableType .
+
+    RIGHT_PAR       reduce using rule 59 (factor -> variableType .)
+    STAR            reduce using rule 59 (factor -> variableType .)
+    BETWEEN         reduce using rule 59 (factor -> variableType .)
+    MINUS           reduce using rule 59 (factor -> variableType .)
+    PLUS            reduce using rule 59 (factor -> variableType .)
+    IF              reduce using rule 59 (factor -> variableType .)
+    WHILE           reduce using rule 59 (factor -> variableType .)
+    USE             reduce using rule 59 (factor -> variableType .)
+    DOLLAR          reduce using rule 59 (factor -> variableType .)
+    TRUE            reduce using rule 59 (factor -> variableType .)
+    FALSE           reduce using rule 59 (factor -> variableType .)
+    PRINT           reduce using rule 59 (factor -> variableType .)
+    STRING          reduce using rule 59 (factor -> variableType .)
+    IDENTIFIER      reduce using rule 59 (factor -> variableType .)
+    LEFT_PAR        reduce using rule 59 (factor -> variableType .)
+    INTEGER         reduce using rule 59 (factor -> variableType .)
+    FLOAT           reduce using rule 59 (factor -> variableType .)
+    $end            reduce using rule 59 (factor -> variableType .)
+    LESS_OR_EQUAL   reduce using rule 59 (factor -> variableType .)
+    LESS_THAN       reduce using rule 59 (factor -> variableType .)
+    MORE_THAN       reduce using rule 59 (factor -> variableType .)
+    GREATER_OR_EQUAL reduce using rule 59 (factor -> variableType .)
+    EQ              reduce using rule 59 (factor -> variableType .)
+    NEQ             reduce using rule 59 (factor -> variableType .)
+    RIGHT_BRACE     reduce using rule 59 (factor -> variableType .)
 
 
 state 8
@@ -379,19 +376,11 @@ state 9
 
     (50) term -> multiNegExp . multiSign term
     (51) term -> multiNegExp .
-    (52) multiSign -> . EXP
-    (53) multiSign -> . STAR
-    (54) multiSign -> . BETWEEN
+    (52) multiSign -> . STAR
+    (53) multiSign -> . BETWEEN
 
     MINUS           reduce using rule 51 (term -> multiNegExp .)
     PLUS            reduce using rule 51 (term -> multiNegExp .)
-    LESS_OR_EQUAL   reduce using rule 51 (term -> multiNegExp .)
-    LESS_THAN       reduce using rule 51 (term -> multiNegExp .)
-    MORE_THAN       reduce using rule 51 (term -> multiNegExp .)
-    GREATER_OR_EQUAL reduce using rule 51 (term -> multiNegExp .)
-    EQ              reduce using rule 51 (term -> multiNegExp .)
-    NEQ             reduce using rule 51 (term -> multiNegExp .)
-    RIGHT_PAR       reduce using rule 51 (term -> multiNegExp .)
     IF              reduce using rule 51 (term -> multiNegExp .)
     WHILE           reduce using rule 51 (term -> multiNegExp .)
     USE             reduce using rule 51 (term -> multiNegExp .)
@@ -405,12 +394,18 @@ state 9
     INTEGER         reduce using rule 51 (term -> multiNegExp .)
     FLOAT           reduce using rule 51 (term -> multiNegExp .)
     $end            reduce using rule 51 (term -> multiNegExp .)
+    LESS_OR_EQUAL   reduce using rule 51 (term -> multiNegExp .)
+    LESS_THAN       reduce using rule 51 (term -> multiNegExp .)
+    MORE_THAN       reduce using rule 51 (term -> multiNegExp .)
+    GREATER_OR_EQUAL reduce using rule 51 (term -> multiNegExp .)
+    EQ              reduce using rule 51 (term -> multiNegExp .)
+    NEQ             reduce using rule 51 (term -> multiNegExp .)
+    RIGHT_PAR       reduce using rule 51 (term -> multiNegExp .)
     RIGHT_BRACE     reduce using rule 51 (term -> multiNegExp .)
-    EXP             shift and go to state 44
-    STAR            shift and go to state 42
-    BETWEEN         shift and go to state 45
+    STAR            shift and go to state 43
+    BETWEEN         shift and go to state 42
 
-    multiSign                      shift and go to state 43
+    multiSign                      shift and go to state 44
 
 state 10
 
@@ -432,7 +427,6 @@ state 10
     FLOAT           reduce using rule 14 (variableType -> STRING .)
     $end            reduce using rule 14 (variableType -> STRING .)
     RIGHT_PAR       reduce using rule 14 (variableType -> STRING .)
-    EXP             reduce using rule 14 (variableType -> STRING .)
     STAR            reduce using rule 14 (variableType -> STRING .)
     BETWEEN         reduce using rule 14 (variableType -> STRING .)
     LESS_OR_EQUAL   reduce using rule 14 (variableType -> STRING .)
@@ -446,34 +440,33 @@ state 10
 
 state 11
 
-    (13) variableType -> number .
+    (11) variableType -> number .
 
-    IF              reduce using rule 13 (variableType -> number .)
-    WHILE           reduce using rule 13 (variableType -> number .)
-    USE             reduce using rule 13 (variableType -> number .)
-    DOLLAR          reduce using rule 13 (variableType -> number .)
-    TRUE            reduce using rule 13 (variableType -> number .)
-    FALSE           reduce using rule 13 (variableType -> number .)
-    PRINT           reduce using rule 13 (variableType -> number .)
-    MINUS           reduce using rule 13 (variableType -> number .)
-    PLUS            reduce using rule 13 (variableType -> number .)
-    STRING          reduce using rule 13 (variableType -> number .)
-    IDENTIFIER      reduce using rule 13 (variableType -> number .)
-    LEFT_PAR        reduce using rule 13 (variableType -> number .)
-    INTEGER         reduce using rule 13 (variableType -> number .)
-    FLOAT           reduce using rule 13 (variableType -> number .)
-    $end            reduce using rule 13 (variableType -> number .)
-    RIGHT_PAR       reduce using rule 13 (variableType -> number .)
-    EXP             reduce using rule 13 (variableType -> number .)
-    STAR            reduce using rule 13 (variableType -> number .)
-    BETWEEN         reduce using rule 13 (variableType -> number .)
-    LESS_OR_EQUAL   reduce using rule 13 (variableType -> number .)
-    LESS_THAN       reduce using rule 13 (variableType -> number .)
-    MORE_THAN       reduce using rule 13 (variableType -> number .)
-    GREATER_OR_EQUAL reduce using rule 13 (variableType -> number .)
-    EQ              reduce using rule 13 (variableType -> number .)
-    NEQ             reduce using rule 13 (variableType -> number .)
-    RIGHT_BRACE     reduce using rule 13 (variableType -> number .)
+    IF              reduce using rule 11 (variableType -> number .)
+    WHILE           reduce using rule 11 (variableType -> number .)
+    USE             reduce using rule 11 (variableType -> number .)
+    DOLLAR          reduce using rule 11 (variableType -> number .)
+    TRUE            reduce using rule 11 (variableType -> number .)
+    FALSE           reduce using rule 11 (variableType -> number .)
+    PRINT           reduce using rule 11 (variableType -> number .)
+    MINUS           reduce using rule 11 (variableType -> number .)
+    PLUS            reduce using rule 11 (variableType -> number .)
+    STRING          reduce using rule 11 (variableType -> number .)
+    IDENTIFIER      reduce using rule 11 (variableType -> number .)
+    LEFT_PAR        reduce using rule 11 (variableType -> number .)
+    INTEGER         reduce using rule 11 (variableType -> number .)
+    FLOAT           reduce using rule 11 (variableType -> number .)
+    $end            reduce using rule 11 (variableType -> number .)
+    RIGHT_PAR       reduce using rule 11 (variableType -> number .)
+    STAR            reduce using rule 11 (variableType -> number .)
+    BETWEEN         reduce using rule 11 (variableType -> number .)
+    LESS_OR_EQUAL   reduce using rule 11 (variableType -> number .)
+    LESS_THAN       reduce using rule 11 (variableType -> number .)
+    MORE_THAN       reduce using rule 11 (variableType -> number .)
+    GREATER_OR_EQUAL reduce using rule 11 (variableType -> number .)
+    EQ              reduce using rule 11 (variableType -> number .)
+    NEQ             reduce using rule 11 (variableType -> number .)
+    RIGHT_BRACE     reduce using rule 11 (variableType -> number .)
 
 
 state 12
@@ -504,8 +497,8 @@ state 13
     (35) andExp -> TRUE . AND compExp
     (15) variableType -> TRUE .
 
-    OR              shift and go to state 47
-    AND             shift and go to state 46
+    OR              shift and go to state 46
+    AND             shift and go to state 45
     IF              reduce using rule 15 (variableType -> TRUE .)
     WHILE           reduce using rule 15 (variableType -> TRUE .)
     USE             reduce using rule 15 (variableType -> TRUE .)
@@ -522,7 +515,6 @@ state 13
     FLOAT           reduce using rule 15 (variableType -> TRUE .)
     $end            reduce using rule 15 (variableType -> TRUE .)
     RIGHT_PAR       reduce using rule 15 (variableType -> TRUE .)
-    EXP             reduce using rule 15 (variableType -> TRUE .)
     STAR            reduce using rule 15 (variableType -> TRUE .)
     BETWEEN         reduce using rule 15 (variableType -> TRUE .)
     LESS_OR_EQUAL   reduce using rule 15 (variableType -> TRUE .)
@@ -536,18 +528,18 @@ state 13
 
 state 14
 
-    (57) unaryOp -> MINUS .
+    (56) unaryOp -> MINUS .
 
-    MINUS           reduce using rule 57 (unaryOp -> MINUS .)
-    PLUS            reduce using rule 57 (unaryOp -> MINUS .)
-    STRING          reduce using rule 57 (unaryOp -> MINUS .)
-    TRUE            reduce using rule 57 (unaryOp -> MINUS .)
-    FALSE           reduce using rule 57 (unaryOp -> MINUS .)
-    IDENTIFIER      reduce using rule 57 (unaryOp -> MINUS .)
-    LEFT_PAR        reduce using rule 57 (unaryOp -> MINUS .)
-    DOLLAR          reduce using rule 57 (unaryOp -> MINUS .)
-    INTEGER         reduce using rule 57 (unaryOp -> MINUS .)
-    FLOAT           reduce using rule 57 (unaryOp -> MINUS .)
+    MINUS           reduce using rule 56 (unaryOp -> MINUS .)
+    PLUS            reduce using rule 56 (unaryOp -> MINUS .)
+    STRING          reduce using rule 56 (unaryOp -> MINUS .)
+    TRUE            reduce using rule 56 (unaryOp -> MINUS .)
+    FALSE           reduce using rule 56 (unaryOp -> MINUS .)
+    IDENTIFIER      reduce using rule 56 (unaryOp -> MINUS .)
+    LEFT_PAR        reduce using rule 56 (unaryOp -> MINUS .)
+    DOLLAR          reduce using rule 56 (unaryOp -> MINUS .)
+    INTEGER         reduce using rule 56 (unaryOp -> MINUS .)
+    FLOAT           reduce using rule 56 (unaryOp -> MINUS .)
 
 
 state 15
@@ -558,18 +550,18 @@ state 15
 
 state 16
 
-    (58) unaryOp -> PLUS .
+    (57) unaryOp -> PLUS .
 
-    MINUS           reduce using rule 58 (unaryOp -> PLUS .)
-    PLUS            reduce using rule 58 (unaryOp -> PLUS .)
-    STRING          reduce using rule 58 (unaryOp -> PLUS .)
-    TRUE            reduce using rule 58 (unaryOp -> PLUS .)
-    FALSE           reduce using rule 58 (unaryOp -> PLUS .)
-    IDENTIFIER      reduce using rule 58 (unaryOp -> PLUS .)
-    LEFT_PAR        reduce using rule 58 (unaryOp -> PLUS .)
-    DOLLAR          reduce using rule 58 (unaryOp -> PLUS .)
-    INTEGER         reduce using rule 58 (unaryOp -> PLUS .)
-    FLOAT           reduce using rule 58 (unaryOp -> PLUS .)
+    MINUS           reduce using rule 57 (unaryOp -> PLUS .)
+    PLUS            reduce using rule 57 (unaryOp -> PLUS .)
+    STRING          reduce using rule 57 (unaryOp -> PLUS .)
+    TRUE            reduce using rule 57 (unaryOp -> PLUS .)
+    FALSE           reduce using rule 57 (unaryOp -> PLUS .)
+    IDENTIFIER      reduce using rule 57 (unaryOp -> PLUS .)
+    LEFT_PAR        reduce using rule 57 (unaryOp -> PLUS .)
+    DOLLAR          reduce using rule 57 (unaryOp -> PLUS .)
+    INTEGER         reduce using rule 57 (unaryOp -> PLUS .)
+    FLOAT           reduce using rule 57 (unaryOp -> PLUS .)
 
 
 state 17
@@ -596,98 +588,95 @@ state 17
 
 state 18
 
-    (56) multiNegExp -> factor .
+    (55) multiNegExp -> factor .
 
-    EXP             reduce using rule 56 (multiNegExp -> factor .)
-    STAR            reduce using rule 56 (multiNegExp -> factor .)
-    BETWEEN         reduce using rule 56 (multiNegExp -> factor .)
-    MINUS           reduce using rule 56 (multiNegExp -> factor .)
-    PLUS            reduce using rule 56 (multiNegExp -> factor .)
-    LESS_OR_EQUAL   reduce using rule 56 (multiNegExp -> factor .)
-    LESS_THAN       reduce using rule 56 (multiNegExp -> factor .)
-    MORE_THAN       reduce using rule 56 (multiNegExp -> factor .)
-    GREATER_OR_EQUAL reduce using rule 56 (multiNegExp -> factor .)
-    EQ              reduce using rule 56 (multiNegExp -> factor .)
-    NEQ             reduce using rule 56 (multiNegExp -> factor .)
-    RIGHT_PAR       reduce using rule 56 (multiNegExp -> factor .)
-    IF              reduce using rule 56 (multiNegExp -> factor .)
-    WHILE           reduce using rule 56 (multiNegExp -> factor .)
-    USE             reduce using rule 56 (multiNegExp -> factor .)
-    DOLLAR          reduce using rule 56 (multiNegExp -> factor .)
-    TRUE            reduce using rule 56 (multiNegExp -> factor .)
-    FALSE           reduce using rule 56 (multiNegExp -> factor .)
-    PRINT           reduce using rule 56 (multiNegExp -> factor .)
-    STRING          reduce using rule 56 (multiNegExp -> factor .)
-    IDENTIFIER      reduce using rule 56 (multiNegExp -> factor .)
-    LEFT_PAR        reduce using rule 56 (multiNegExp -> factor .)
-    INTEGER         reduce using rule 56 (multiNegExp -> factor .)
-    FLOAT           reduce using rule 56 (multiNegExp -> factor .)
-    $end            reduce using rule 56 (multiNegExp -> factor .)
-    RIGHT_BRACE     reduce using rule 56 (multiNegExp -> factor .)
+    STAR            reduce using rule 55 (multiNegExp -> factor .)
+    BETWEEN         reduce using rule 55 (multiNegExp -> factor .)
+    MINUS           reduce using rule 55 (multiNegExp -> factor .)
+    PLUS            reduce using rule 55 (multiNegExp -> factor .)
+    IF              reduce using rule 55 (multiNegExp -> factor .)
+    WHILE           reduce using rule 55 (multiNegExp -> factor .)
+    USE             reduce using rule 55 (multiNegExp -> factor .)
+    DOLLAR          reduce using rule 55 (multiNegExp -> factor .)
+    TRUE            reduce using rule 55 (multiNegExp -> factor .)
+    FALSE           reduce using rule 55 (multiNegExp -> factor .)
+    PRINT           reduce using rule 55 (multiNegExp -> factor .)
+    STRING          reduce using rule 55 (multiNegExp -> factor .)
+    IDENTIFIER      reduce using rule 55 (multiNegExp -> factor .)
+    LEFT_PAR        reduce using rule 55 (multiNegExp -> factor .)
+    INTEGER         reduce using rule 55 (multiNegExp -> factor .)
+    FLOAT           reduce using rule 55 (multiNegExp -> factor .)
+    $end            reduce using rule 55 (multiNegExp -> factor .)
+    LESS_OR_EQUAL   reduce using rule 55 (multiNegExp -> factor .)
+    LESS_THAN       reduce using rule 55 (multiNegExp -> factor .)
+    MORE_THAN       reduce using rule 55 (multiNegExp -> factor .)
+    GREATER_OR_EQUAL reduce using rule 55 (multiNegExp -> factor .)
+    EQ              reduce using rule 55 (multiNegExp -> factor .)
+    NEQ             reduce using rule 55 (multiNegExp -> factor .)
+    RIGHT_PAR       reduce using rule 55 (multiNegExp -> factor .)
+    RIGHT_BRACE     reduce using rule 55 (multiNegExp -> factor .)
 
 
 state 19
 
-    (11) number -> INTEGER .
+    (12) number -> INTEGER .
 
-    IF              reduce using rule 11 (number -> INTEGER .)
-    WHILE           reduce using rule 11 (number -> INTEGER .)
-    USE             reduce using rule 11 (number -> INTEGER .)
-    DOLLAR          reduce using rule 11 (number -> INTEGER .)
-    TRUE            reduce using rule 11 (number -> INTEGER .)
-    FALSE           reduce using rule 11 (number -> INTEGER .)
-    PRINT           reduce using rule 11 (number -> INTEGER .)
-    MINUS           reduce using rule 11 (number -> INTEGER .)
-    PLUS            reduce using rule 11 (number -> INTEGER .)
-    STRING          reduce using rule 11 (number -> INTEGER .)
-    IDENTIFIER      reduce using rule 11 (number -> INTEGER .)
-    LEFT_PAR        reduce using rule 11 (number -> INTEGER .)
-    INTEGER         reduce using rule 11 (number -> INTEGER .)
-    FLOAT           reduce using rule 11 (number -> INTEGER .)
-    $end            reduce using rule 11 (number -> INTEGER .)
-    RIGHT_PAR       reduce using rule 11 (number -> INTEGER .)
-    EXP             reduce using rule 11 (number -> INTEGER .)
-    STAR            reduce using rule 11 (number -> INTEGER .)
-    BETWEEN         reduce using rule 11 (number -> INTEGER .)
-    LESS_OR_EQUAL   reduce using rule 11 (number -> INTEGER .)
-    LESS_THAN       reduce using rule 11 (number -> INTEGER .)
-    MORE_THAN       reduce using rule 11 (number -> INTEGER .)
-    GREATER_OR_EQUAL reduce using rule 11 (number -> INTEGER .)
-    EQ              reduce using rule 11 (number -> INTEGER .)
-    NEQ             reduce using rule 11 (number -> INTEGER .)
-    RIGHT_BRACE     reduce using rule 11 (number -> INTEGER .)
+    IF              reduce using rule 12 (number -> INTEGER .)
+    WHILE           reduce using rule 12 (number -> INTEGER .)
+    USE             reduce using rule 12 (number -> INTEGER .)
+    DOLLAR          reduce using rule 12 (number -> INTEGER .)
+    TRUE            reduce using rule 12 (number -> INTEGER .)
+    FALSE           reduce using rule 12 (number -> INTEGER .)
+    PRINT           reduce using rule 12 (number -> INTEGER .)
+    MINUS           reduce using rule 12 (number -> INTEGER .)
+    PLUS            reduce using rule 12 (number -> INTEGER .)
+    STRING          reduce using rule 12 (number -> INTEGER .)
+    IDENTIFIER      reduce using rule 12 (number -> INTEGER .)
+    LEFT_PAR        reduce using rule 12 (number -> INTEGER .)
+    INTEGER         reduce using rule 12 (number -> INTEGER .)
+    FLOAT           reduce using rule 12 (number -> INTEGER .)
+    $end            reduce using rule 12 (number -> INTEGER .)
+    RIGHT_PAR       reduce using rule 12 (number -> INTEGER .)
+    STAR            reduce using rule 12 (number -> INTEGER .)
+    BETWEEN         reduce using rule 12 (number -> INTEGER .)
+    LESS_OR_EQUAL   reduce using rule 12 (number -> INTEGER .)
+    LESS_THAN       reduce using rule 12 (number -> INTEGER .)
+    MORE_THAN       reduce using rule 12 (number -> INTEGER .)
+    GREATER_OR_EQUAL reduce using rule 12 (number -> INTEGER .)
+    EQ              reduce using rule 12 (number -> INTEGER .)
+    NEQ             reduce using rule 12 (number -> INTEGER .)
+    RIGHT_BRACE     reduce using rule 12 (number -> INTEGER .)
 
 
 state 20
 
-    (61) factor -> IDENTIFIER .
+    (60) factor -> IDENTIFIER .
 
-    RIGHT_PAR       reduce using rule 61 (factor -> IDENTIFIER .)
-    EXP             reduce using rule 61 (factor -> IDENTIFIER .)
-    STAR            reduce using rule 61 (factor -> IDENTIFIER .)
-    BETWEEN         reduce using rule 61 (factor -> IDENTIFIER .)
-    MINUS           reduce using rule 61 (factor -> IDENTIFIER .)
-    PLUS            reduce using rule 61 (factor -> IDENTIFIER .)
-    LESS_OR_EQUAL   reduce using rule 61 (factor -> IDENTIFIER .)
-    LESS_THAN       reduce using rule 61 (factor -> IDENTIFIER .)
-    MORE_THAN       reduce using rule 61 (factor -> IDENTIFIER .)
-    GREATER_OR_EQUAL reduce using rule 61 (factor -> IDENTIFIER .)
-    EQ              reduce using rule 61 (factor -> IDENTIFIER .)
-    NEQ             reduce using rule 61 (factor -> IDENTIFIER .)
-    IF              reduce using rule 61 (factor -> IDENTIFIER .)
-    WHILE           reduce using rule 61 (factor -> IDENTIFIER .)
-    USE             reduce using rule 61 (factor -> IDENTIFIER .)
-    DOLLAR          reduce using rule 61 (factor -> IDENTIFIER .)
-    TRUE            reduce using rule 61 (factor -> IDENTIFIER .)
-    FALSE           reduce using rule 61 (factor -> IDENTIFIER .)
-    PRINT           reduce using rule 61 (factor -> IDENTIFIER .)
-    STRING          reduce using rule 61 (factor -> IDENTIFIER .)
-    IDENTIFIER      reduce using rule 61 (factor -> IDENTIFIER .)
-    LEFT_PAR        reduce using rule 61 (factor -> IDENTIFIER .)
-    INTEGER         reduce using rule 61 (factor -> IDENTIFIER .)
-    FLOAT           reduce using rule 61 (factor -> IDENTIFIER .)
-    $end            reduce using rule 61 (factor -> IDENTIFIER .)
-    RIGHT_BRACE     reduce using rule 61 (factor -> IDENTIFIER .)
+    RIGHT_PAR       reduce using rule 60 (factor -> IDENTIFIER .)
+    STAR            reduce using rule 60 (factor -> IDENTIFIER .)
+    BETWEEN         reduce using rule 60 (factor -> IDENTIFIER .)
+    MINUS           reduce using rule 60 (factor -> IDENTIFIER .)
+    PLUS            reduce using rule 60 (factor -> IDENTIFIER .)
+    IF              reduce using rule 60 (factor -> IDENTIFIER .)
+    WHILE           reduce using rule 60 (factor -> IDENTIFIER .)
+    USE             reduce using rule 60 (factor -> IDENTIFIER .)
+    DOLLAR          reduce using rule 60 (factor -> IDENTIFIER .)
+    TRUE            reduce using rule 60 (factor -> IDENTIFIER .)
+    FALSE           reduce using rule 60 (factor -> IDENTIFIER .)
+    PRINT           reduce using rule 60 (factor -> IDENTIFIER .)
+    STRING          reduce using rule 60 (factor -> IDENTIFIER .)
+    IDENTIFIER      reduce using rule 60 (factor -> IDENTIFIER .)
+    LEFT_PAR        reduce using rule 60 (factor -> IDENTIFIER .)
+    INTEGER         reduce using rule 60 (factor -> IDENTIFIER .)
+    FLOAT           reduce using rule 60 (factor -> IDENTIFIER .)
+    $end            reduce using rule 60 (factor -> IDENTIFIER .)
+    LESS_OR_EQUAL   reduce using rule 60 (factor -> IDENTIFIER .)
+    LESS_THAN       reduce using rule 60 (factor -> IDENTIFIER .)
+    MORE_THAN       reduce using rule 60 (factor -> IDENTIFIER .)
+    GREATER_OR_EQUAL reduce using rule 60 (factor -> IDENTIFIER .)
+    EQ              reduce using rule 60 (factor -> IDENTIFIER .)
+    NEQ             reduce using rule 60 (factor -> IDENTIFIER .)
+    RIGHT_BRACE     reduce using rule 60 (factor -> IDENTIFIER .)
 
 
 state 21
@@ -746,7 +735,7 @@ state 24
 
     (8) variable -> DOLLAR . IDENTIFIER
 
-    IDENTIFIER      shift and go to state 48
+    IDENTIFIER      shift and go to state 47
 
 
 state 25
@@ -758,13 +747,6 @@ state 25
 
   ! shift/reduce conflict for MINUS resolved as shift
   ! shift/reduce conflict for PLUS resolved as shift
-    LESS_OR_EQUAL   reduce using rule 47 (sumExp -> term .)
-    LESS_THAN       reduce using rule 47 (sumExp -> term .)
-    MORE_THAN       reduce using rule 47 (sumExp -> term .)
-    GREATER_OR_EQUAL reduce using rule 47 (sumExp -> term .)
-    EQ              reduce using rule 47 (sumExp -> term .)
-    NEQ             reduce using rule 47 (sumExp -> term .)
-    RIGHT_PAR       reduce using rule 47 (sumExp -> term .)
     IF              reduce using rule 47 (sumExp -> term .)
     WHILE           reduce using rule 47 (sumExp -> term .)
     USE             reduce using rule 47 (sumExp -> term .)
@@ -778,14 +760,21 @@ state 25
     INTEGER         reduce using rule 47 (sumExp -> term .)
     FLOAT           reduce using rule 47 (sumExp -> term .)
     $end            reduce using rule 47 (sumExp -> term .)
+    LESS_OR_EQUAL   reduce using rule 47 (sumExp -> term .)
+    LESS_THAN       reduce using rule 47 (sumExp -> term .)
+    MORE_THAN       reduce using rule 47 (sumExp -> term .)
+    GREATER_OR_EQUAL reduce using rule 47 (sumExp -> term .)
+    EQ              reduce using rule 47 (sumExp -> term .)
+    NEQ             reduce using rule 47 (sumExp -> term .)
+    RIGHT_PAR       reduce using rule 47 (sumExp -> term .)
     RIGHT_BRACE     reduce using rule 47 (sumExp -> term .)
-    MINUS           shift and go to state 51
-    PLUS            shift and go to state 49
+    MINUS           shift and go to state 50
+    PLUS            shift and go to state 48
 
   ! MINUS           [ reduce using rule 47 (sumExp -> term .) ]
   ! PLUS            [ reduce using rule 47 (sumExp -> term .) ]
 
-    sumSign                        shift and go to state 50
+    sumSign                        shift and go to state 49
 
 state 26
 
@@ -797,7 +786,7 @@ state 26
     (5) declaration -> . statement
     (6) declaration -> . constDeclaration
     (7) declaration -> . funcDeclaration
-    (9) varDeclaration -> . variable ASSIGN variableType
+    (9) varDeclaration -> . variable ASSIGN sumExp
     (10) varDeclaration -> . variable ASSIGN STDIN
     (22) statement -> . expression
     (23) statement -> . conditionalStmt
@@ -827,27 +816,27 @@ state 26
     (47) sumExp -> . term
     (50) term -> . multiNegExp multiSign term
     (51) term -> . multiNegExp
-    (55) multiNegExp -> . unaryOp multiNegExp
-    (56) multiNegExp -> . factor
-    (57) unaryOp -> . MINUS
-    (58) unaryOp -> . PLUS
-    (59) factor -> . variable
-    (60) factor -> . variableType
-    (61) factor -> . IDENTIFIER
-    (62) factor -> . LEFT_PAR expression RIGHT_PAR
-    (13) variableType -> . number
+    (54) multiNegExp -> . unaryOp multiNegExp
+    (55) multiNegExp -> . factor
+    (56) unaryOp -> . MINUS
+    (57) unaryOp -> . PLUS
+    (58) factor -> . variable
+    (59) factor -> . variableType
+    (60) factor -> . IDENTIFIER
+    (61) factor -> . LEFT_PAR expression RIGHT_PAR
+    (11) variableType -> . number
     (14) variableType -> . STRING
     (15) variableType -> . TRUE
     (16) variableType -> . FALSE
-    (11) number -> . INTEGER
-    (12) number -> . FLOAT
+    (12) number -> . INTEGER
+    (13) number -> . FLOAT
 
     $end            reduce using rule 3 (declarationList -> declaration .)
     RIGHT_BRACE     reduce using rule 3 (declarationList -> declaration .)
     USE             shift and go to state 1
-    PRINT           shift and go to state 7
+    PRINT           shift and go to state 6
     DOLLAR          shift and go to state 24
-    WHILE           shift and go to state 6
+    WHILE           shift and go to state 5
     TRUE            shift and go to state 13
     FALSE           shift and go to state 30
     IF              shift and go to state 28
@@ -860,10 +849,10 @@ state 26
     FLOAT           shift and go to state 32
 
     varDeclaration                 shift and go to state 2
-    variableType                   shift and go to state 3
-    matchedif                      shift and go to state 4
+    variableType                   shift and go to state 7
+    matchedif                      shift and go to state 3
     number                         shift and go to state 11
-    loopStmt                       shift and go to state 5
+    loopStmt                       shift and go to state 4
     logicalExp                     shift and go to state 8
     multiNegExp                    shift and go to state 9
     conditionalStmt                shift and go to state 12
@@ -871,7 +860,7 @@ state 26
     factor                         shift and go to state 18
     sumLessExpression              shift and go to state 21
     constDeclaration               shift and go to state 22
-    declarationList                shift and go to state 52
+    declarationList                shift and go to state 51
     andExp                         shift and go to state 29
     declaration                    shift and go to state 26
     variable                       shift and go to state 27
@@ -885,41 +874,40 @@ state 26
 
 state 27
 
-    (9) varDeclaration -> variable . ASSIGN variableType
+    (9) varDeclaration -> variable . ASSIGN sumExp
     (10) varDeclaration -> variable . ASSIGN STDIN
     (20) sumLessExpression -> variable . PLUS_ONE
     (21) sumLessExpression -> variable . MINUS_ONE
-    (59) factor -> variable .
+    (58) factor -> variable .
 
-    ASSIGN          shift and go to state 55
-    PLUS_ONE        shift and go to state 53
-    MINUS_ONE       shift and go to state 54
-    RIGHT_PAR       reduce using rule 59 (factor -> variable .)
-    EXP             reduce using rule 59 (factor -> variable .)
-    STAR            reduce using rule 59 (factor -> variable .)
-    BETWEEN         reduce using rule 59 (factor -> variable .)
-    MINUS           reduce using rule 59 (factor -> variable .)
-    PLUS            reduce using rule 59 (factor -> variable .)
-    LESS_OR_EQUAL   reduce using rule 59 (factor -> variable .)
-    LESS_THAN       reduce using rule 59 (factor -> variable .)
-    MORE_THAN       reduce using rule 59 (factor -> variable .)
-    GREATER_OR_EQUAL reduce using rule 59 (factor -> variable .)
-    EQ              reduce using rule 59 (factor -> variable .)
-    NEQ             reduce using rule 59 (factor -> variable .)
-    IF              reduce using rule 59 (factor -> variable .)
-    WHILE           reduce using rule 59 (factor -> variable .)
-    USE             reduce using rule 59 (factor -> variable .)
-    DOLLAR          reduce using rule 59 (factor -> variable .)
-    TRUE            reduce using rule 59 (factor -> variable .)
-    FALSE           reduce using rule 59 (factor -> variable .)
-    PRINT           reduce using rule 59 (factor -> variable .)
-    STRING          reduce using rule 59 (factor -> variable .)
-    IDENTIFIER      reduce using rule 59 (factor -> variable .)
-    LEFT_PAR        reduce using rule 59 (factor -> variable .)
-    INTEGER         reduce using rule 59 (factor -> variable .)
-    FLOAT           reduce using rule 59 (factor -> variable .)
-    $end            reduce using rule 59 (factor -> variable .)
-    RIGHT_BRACE     reduce using rule 59 (factor -> variable .)
+    ASSIGN          shift and go to state 54
+    PLUS_ONE        shift and go to state 52
+    MINUS_ONE       shift and go to state 53
+    RIGHT_PAR       reduce using rule 58 (factor -> variable .)
+    STAR            reduce using rule 58 (factor -> variable .)
+    BETWEEN         reduce using rule 58 (factor -> variable .)
+    MINUS           reduce using rule 58 (factor -> variable .)
+    PLUS            reduce using rule 58 (factor -> variable .)
+    IF              reduce using rule 58 (factor -> variable .)
+    WHILE           reduce using rule 58 (factor -> variable .)
+    USE             reduce using rule 58 (factor -> variable .)
+    DOLLAR          reduce using rule 58 (factor -> variable .)
+    TRUE            reduce using rule 58 (factor -> variable .)
+    FALSE           reduce using rule 58 (factor -> variable .)
+    PRINT           reduce using rule 58 (factor -> variable .)
+    STRING          reduce using rule 58 (factor -> variable .)
+    IDENTIFIER      reduce using rule 58 (factor -> variable .)
+    LEFT_PAR        reduce using rule 58 (factor -> variable .)
+    INTEGER         reduce using rule 58 (factor -> variable .)
+    FLOAT           reduce using rule 58 (factor -> variable .)
+    $end            reduce using rule 58 (factor -> variable .)
+    LESS_OR_EQUAL   reduce using rule 58 (factor -> variable .)
+    LESS_THAN       reduce using rule 58 (factor -> variable .)
+    MORE_THAN       reduce using rule 58 (factor -> variable .)
+    GREATER_OR_EQUAL reduce using rule 58 (factor -> variable .)
+    EQ              reduce using rule 58 (factor -> variable .)
+    NEQ             reduce using rule 58 (factor -> variable .)
+    RIGHT_BRACE     reduce using rule 58 (factor -> variable .)
 
 
 state 28
@@ -927,7 +915,7 @@ state 28
     (27) matchedif -> IF . LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE ELSE LEFT_BRACE declarationList RIGHT_BRACE
     (28) unmatchedif -> IF . LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE
 
-    LEFT_PAR        shift and go to state 56
+    LEFT_PAR        shift and go to state 55
 
 
 state 29
@@ -959,8 +947,8 @@ state 30
     (36) andExp -> FALSE . AND compExp
     (16) variableType -> FALSE .
 
-    OR              shift and go to state 58
-    AND             shift and go to state 57
+    OR              shift and go to state 57
+    AND             shift and go to state 56
     IF              reduce using rule 16 (variableType -> FALSE .)
     WHILE           reduce using rule 16 (variableType -> FALSE .)
     USE             reduce using rule 16 (variableType -> FALSE .)
@@ -977,7 +965,6 @@ state 30
     FLOAT           reduce using rule 16 (variableType -> FALSE .)
     $end            reduce using rule 16 (variableType -> FALSE .)
     RIGHT_PAR       reduce using rule 16 (variableType -> FALSE .)
-    EXP             reduce using rule 16 (variableType -> FALSE .)
     STAR            reduce using rule 16 (variableType -> FALSE .)
     BETWEEN         reduce using rule 16 (variableType -> FALSE .)
     LESS_OR_EQUAL   reduce using rule 16 (variableType -> FALSE .)
@@ -991,22 +978,22 @@ state 30
 
 state 31
 
-    (55) multiNegExp -> unaryOp . multiNegExp
-    (55) multiNegExp -> . unaryOp multiNegExp
-    (56) multiNegExp -> . factor
-    (57) unaryOp -> . MINUS
-    (58) unaryOp -> . PLUS
-    (59) factor -> . variable
-    (60) factor -> . variableType
-    (61) factor -> . IDENTIFIER
-    (62) factor -> . LEFT_PAR expression RIGHT_PAR
+    (54) multiNegExp -> unaryOp . multiNegExp
+    (54) multiNegExp -> . unaryOp multiNegExp
+    (55) multiNegExp -> . factor
+    (56) unaryOp -> . MINUS
+    (57) unaryOp -> . PLUS
+    (58) factor -> . variable
+    (59) factor -> . variableType
+    (60) factor -> . IDENTIFIER
+    (61) factor -> . LEFT_PAR expression RIGHT_PAR
     (8) variable -> . DOLLAR IDENTIFIER
-    (13) variableType -> . number
+    (11) variableType -> . number
     (14) variableType -> . STRING
     (15) variableType -> . TRUE
     (16) variableType -> . FALSE
-    (11) number -> . INTEGER
-    (12) number -> . FLOAT
+    (12) number -> . INTEGER
+    (13) number -> . FLOAT
 
     MINUS           shift and go to state 14
     PLUS            shift and go to state 16
@@ -1014,48 +1001,47 @@ state 31
     LEFT_PAR        shift and go to state 36
     DOLLAR          shift and go to state 24
     STRING          shift and go to state 10
-    TRUE            shift and go to state 59
-    FALSE           shift and go to state 62
+    TRUE            shift and go to state 58
+    FALSE           shift and go to state 61
     INTEGER         shift and go to state 19
     FLOAT           shift and go to state 32
 
-    variableType                   shift and go to state 3
+    variableType                   shift and go to state 7
     unaryOp                        shift and go to state 31
-    multiNegExp                    shift and go to state 60
+    multiNegExp                    shift and go to state 59
     number                         shift and go to state 11
     factor                         shift and go to state 18
-    variable                       shift and go to state 61
+    variable                       shift and go to state 60
 
 state 32
 
-    (12) number -> FLOAT .
+    (13) number -> FLOAT .
 
-    IF              reduce using rule 12 (number -> FLOAT .)
-    WHILE           reduce using rule 12 (number -> FLOAT .)
-    USE             reduce using rule 12 (number -> FLOAT .)
-    DOLLAR          reduce using rule 12 (number -> FLOAT .)
-    TRUE            reduce using rule 12 (number -> FLOAT .)
-    FALSE           reduce using rule 12 (number -> FLOAT .)
-    PRINT           reduce using rule 12 (number -> FLOAT .)
-    MINUS           reduce using rule 12 (number -> FLOAT .)
-    PLUS            reduce using rule 12 (number -> FLOAT .)
-    STRING          reduce using rule 12 (number -> FLOAT .)
-    IDENTIFIER      reduce using rule 12 (number -> FLOAT .)
-    LEFT_PAR        reduce using rule 12 (number -> FLOAT .)
-    INTEGER         reduce using rule 12 (number -> FLOAT .)
-    FLOAT           reduce using rule 12 (number -> FLOAT .)
-    $end            reduce using rule 12 (number -> FLOAT .)
-    RIGHT_PAR       reduce using rule 12 (number -> FLOAT .)
-    EXP             reduce using rule 12 (number -> FLOAT .)
-    STAR            reduce using rule 12 (number -> FLOAT .)
-    BETWEEN         reduce using rule 12 (number -> FLOAT .)
-    LESS_OR_EQUAL   reduce using rule 12 (number -> FLOAT .)
-    LESS_THAN       reduce using rule 12 (number -> FLOAT .)
-    MORE_THAN       reduce using rule 12 (number -> FLOAT .)
-    GREATER_OR_EQUAL reduce using rule 12 (number -> FLOAT .)
-    EQ              reduce using rule 12 (number -> FLOAT .)
-    NEQ             reduce using rule 12 (number -> FLOAT .)
-    RIGHT_BRACE     reduce using rule 12 (number -> FLOAT .)
+    IF              reduce using rule 13 (number -> FLOAT .)
+    WHILE           reduce using rule 13 (number -> FLOAT .)
+    USE             reduce using rule 13 (number -> FLOAT .)
+    DOLLAR          reduce using rule 13 (number -> FLOAT .)
+    TRUE            reduce using rule 13 (number -> FLOAT .)
+    FALSE           reduce using rule 13 (number -> FLOAT .)
+    PRINT           reduce using rule 13 (number -> FLOAT .)
+    MINUS           reduce using rule 13 (number -> FLOAT .)
+    PLUS            reduce using rule 13 (number -> FLOAT .)
+    STRING          reduce using rule 13 (number -> FLOAT .)
+    IDENTIFIER      reduce using rule 13 (number -> FLOAT .)
+    LEFT_PAR        reduce using rule 13 (number -> FLOAT .)
+    INTEGER         reduce using rule 13 (number -> FLOAT .)
+    FLOAT           reduce using rule 13 (number -> FLOAT .)
+    $end            reduce using rule 13 (number -> FLOAT .)
+    RIGHT_PAR       reduce using rule 13 (number -> FLOAT .)
+    STAR            reduce using rule 13 (number -> FLOAT .)
+    BETWEEN         reduce using rule 13 (number -> FLOAT .)
+    LESS_OR_EQUAL   reduce using rule 13 (number -> FLOAT .)
+    LESS_THAN       reduce using rule 13 (number -> FLOAT .)
+    MORE_THAN       reduce using rule 13 (number -> FLOAT .)
+    GREATER_OR_EQUAL reduce using rule 13 (number -> FLOAT .)
+    EQ              reduce using rule 13 (number -> FLOAT .)
+    NEQ             reduce using rule 13 (number -> FLOAT .)
+    RIGHT_BRACE     reduce using rule 13 (number -> FLOAT .)
 
 
 state 33
@@ -1109,14 +1095,14 @@ state 34
     FLOAT           reduce using rule 39 (compExp -> sumExp .)
     $end            reduce using rule 39 (compExp -> sumExp .)
     RIGHT_BRACE     reduce using rule 39 (compExp -> sumExp .)
-    LESS_OR_EQUAL   shift and go to state 64
-    LESS_THAN       shift and go to state 67
-    MORE_THAN       shift and go to state 63
-    GREATER_OR_EQUAL shift and go to state 65
-    EQ              shift and go to state 68
-    NEQ             shift and go to state 69
+    LESS_OR_EQUAL   shift and go to state 63
+    LESS_THAN       shift and go to state 66
+    MORE_THAN       shift and go to state 62
+    GREATER_OR_EQUAL shift and go to state 64
+    EQ              shift and go to state 67
+    NEQ             shift and go to state 68
 
-    compSign                       shift and go to state 66
+    compSign                       shift and go to state 65
 
 state 35
 
@@ -1142,7 +1128,7 @@ state 35
 
 state 36
 
-    (62) factor -> LEFT_PAR . expression RIGHT_PAR
+    (61) factor -> LEFT_PAR . expression RIGHT_PAR
     (30) expression -> . logicalExp
     (31) expression -> . sumLessExpression
     (32) logicalExp -> . TRUE OR andExp
@@ -1160,20 +1146,20 @@ state 36
     (47) sumExp -> . term
     (50) term -> . multiNegExp multiSign term
     (51) term -> . multiNegExp
-    (55) multiNegExp -> . unaryOp multiNegExp
-    (56) multiNegExp -> . factor
-    (57) unaryOp -> . MINUS
-    (58) unaryOp -> . PLUS
-    (59) factor -> . variable
-    (60) factor -> . variableType
-    (61) factor -> . IDENTIFIER
-    (62) factor -> . LEFT_PAR expression RIGHT_PAR
-    (13) variableType -> . number
+    (54) multiNegExp -> . unaryOp multiNegExp
+    (55) multiNegExp -> . factor
+    (56) unaryOp -> . MINUS
+    (57) unaryOp -> . PLUS
+    (58) factor -> . variable
+    (59) factor -> . variableType
+    (60) factor -> . IDENTIFIER
+    (61) factor -> . LEFT_PAR expression RIGHT_PAR
+    (11) variableType -> . number
     (14) variableType -> . STRING
     (15) variableType -> . TRUE
     (16) variableType -> . FALSE
-    (11) number -> . INTEGER
-    (12) number -> . FLOAT
+    (12) number -> . INTEGER
+    (13) number -> . FLOAT
 
     TRUE            shift and go to state 13
     FALSE           shift and go to state 30
@@ -1187,17 +1173,17 @@ state 36
     FLOAT           shift and go to state 32
 
     andExp                         shift and go to state 29
-    variableType                   shift and go to state 3
+    variableType                   shift and go to state 7
     sumLessExpression              shift and go to state 21
     unaryOp                        shift and go to state 31
-    expression                     shift and go to state 71
+    expression                     shift and go to state 70
     factor                         shift and go to state 18
     compExp                        shift and go to state 33
     number                         shift and go to state 11
     sumExp                         shift and go to state 34
     term                           shift and go to state 25
     multiNegExp                    shift and go to state 9
-    variable                       shift and go to state 70
+    variable                       shift and go to state 69
     logicalExp                     shift and go to state 8
 
 state 37
@@ -1248,7 +1234,7 @@ state 39
 
     (17) constDeclaration -> USE CONSTANT . IDENTIFIER CONST_ASSIGN variableType
 
-    IDENTIFIER      shift and go to state 72
+    IDENTIFIER      shift and go to state 71
 
 
 state 40
@@ -1266,21 +1252,21 @@ state 40
     (47) sumExp -> . term
     (50) term -> . multiNegExp multiSign term
     (51) term -> . multiNegExp
-    (55) multiNegExp -> . unaryOp multiNegExp
-    (56) multiNegExp -> . factor
-    (57) unaryOp -> . MINUS
-    (58) unaryOp -> . PLUS
-    (59) factor -> . variable
-    (60) factor -> . variableType
-    (61) factor -> . IDENTIFIER
-    (62) factor -> . LEFT_PAR expression RIGHT_PAR
+    (54) multiNegExp -> . unaryOp multiNegExp
+    (55) multiNegExp -> . factor
+    (56) unaryOp -> . MINUS
+    (57) unaryOp -> . PLUS
+    (58) factor -> . variable
+    (59) factor -> . variableType
+    (60) factor -> . IDENTIFIER
+    (61) factor -> . LEFT_PAR expression RIGHT_PAR
     (8) variable -> . DOLLAR IDENTIFIER
-    (13) variableType -> . number
+    (11) variableType -> . number
     (14) variableType -> . STRING
     (15) variableType -> . TRUE
     (16) variableType -> . FALSE
-    (11) number -> . INTEGER
-    (12) number -> . FLOAT
+    (12) number -> . INTEGER
+    (13) number -> . FLOAT
 
     TRUE            shift and go to state 13
     FALSE           shift and go to state 30
@@ -1294,86 +1280,102 @@ state 40
     FLOAT           shift and go to state 32
 
     andExp                         shift and go to state 29
-    variableType                   shift and go to state 3
+    variableType                   shift and go to state 7
     unaryOp                        shift and go to state 31
     compExp                        shift and go to state 33
     number                         shift and go to state 11
     sumExp                         shift and go to state 34
     term                           shift and go to state 25
     multiNegExp                    shift and go to state 9
-    variable                       shift and go to state 61
+    variable                       shift and go to state 60
     factor                         shift and go to state 18
-    logicalExp                     shift and go to state 73
+    logicalExp                     shift and go to state 72
 
 state 41
 
     (18) funcDeclaration -> PRINT LEFT_PAR . factor RIGHT_PAR
     (19) funcDeclaration -> PRINT LEFT_PAR . sumLessExpression RIGHT_PAR
-    (59) factor -> . variable
-    (60) factor -> . variableType
-    (61) factor -> . IDENTIFIER
-    (62) factor -> . LEFT_PAR expression RIGHT_PAR
+    (58) factor -> . variable
+    (59) factor -> . variableType
+    (60) factor -> . IDENTIFIER
+    (61) factor -> . LEFT_PAR expression RIGHT_PAR
     (20) sumLessExpression -> . variable PLUS_ONE
     (21) sumLessExpression -> . variable MINUS_ONE
     (8) variable -> . DOLLAR IDENTIFIER
-    (13) variableType -> . number
+    (11) variableType -> . number
     (14) variableType -> . STRING
     (15) variableType -> . TRUE
     (16) variableType -> . FALSE
-    (11) number -> . INTEGER
-    (12) number -> . FLOAT
+    (12) number -> . INTEGER
+    (13) number -> . FLOAT
 
     IDENTIFIER      shift and go to state 20
     LEFT_PAR        shift and go to state 36
     DOLLAR          shift and go to state 24
     STRING          shift and go to state 10
-    TRUE            shift and go to state 59
-    FALSE           shift and go to state 62
+    TRUE            shift and go to state 58
+    FALSE           shift and go to state 61
     INTEGER         shift and go to state 19
     FLOAT           shift and go to state 32
 
-    variableType                   shift and go to state 3
-    sumLessExpression              shift and go to state 74
+    variableType                   shift and go to state 7
+    sumLessExpression              shift and go to state 73
     number                         shift and go to state 11
-    factor                         shift and go to state 75
-    variable                       shift and go to state 76
+    factor                         shift and go to state 74
+    variable                       shift and go to state 75
 
 state 42
 
-    (53) multiSign -> STAR .
+    (53) multiSign -> BETWEEN .
 
-    MINUS           reduce using rule 53 (multiSign -> STAR .)
-    PLUS            reduce using rule 53 (multiSign -> STAR .)
-    STRING          reduce using rule 53 (multiSign -> STAR .)
-    TRUE            reduce using rule 53 (multiSign -> STAR .)
-    FALSE           reduce using rule 53 (multiSign -> STAR .)
-    IDENTIFIER      reduce using rule 53 (multiSign -> STAR .)
-    LEFT_PAR        reduce using rule 53 (multiSign -> STAR .)
-    DOLLAR          reduce using rule 53 (multiSign -> STAR .)
-    INTEGER         reduce using rule 53 (multiSign -> STAR .)
-    FLOAT           reduce using rule 53 (multiSign -> STAR .)
+    MINUS           reduce using rule 53 (multiSign -> BETWEEN .)
+    PLUS            reduce using rule 53 (multiSign -> BETWEEN .)
+    STRING          reduce using rule 53 (multiSign -> BETWEEN .)
+    TRUE            reduce using rule 53 (multiSign -> BETWEEN .)
+    FALSE           reduce using rule 53 (multiSign -> BETWEEN .)
+    IDENTIFIER      reduce using rule 53 (multiSign -> BETWEEN .)
+    LEFT_PAR        reduce using rule 53 (multiSign -> BETWEEN .)
+    DOLLAR          reduce using rule 53 (multiSign -> BETWEEN .)
+    INTEGER         reduce using rule 53 (multiSign -> BETWEEN .)
+    FLOAT           reduce using rule 53 (multiSign -> BETWEEN .)
 
 
 state 43
 
+    (52) multiSign -> STAR .
+
+    MINUS           reduce using rule 52 (multiSign -> STAR .)
+    PLUS            reduce using rule 52 (multiSign -> STAR .)
+    STRING          reduce using rule 52 (multiSign -> STAR .)
+    TRUE            reduce using rule 52 (multiSign -> STAR .)
+    FALSE           reduce using rule 52 (multiSign -> STAR .)
+    IDENTIFIER      reduce using rule 52 (multiSign -> STAR .)
+    LEFT_PAR        reduce using rule 52 (multiSign -> STAR .)
+    DOLLAR          reduce using rule 52 (multiSign -> STAR .)
+    INTEGER         reduce using rule 52 (multiSign -> STAR .)
+    FLOAT           reduce using rule 52 (multiSign -> STAR .)
+
+
+state 44
+
     (50) term -> multiNegExp multiSign . term
     (50) term -> . multiNegExp multiSign term
     (51) term -> . multiNegExp
-    (55) multiNegExp -> . unaryOp multiNegExp
-    (56) multiNegExp -> . factor
-    (57) unaryOp -> . MINUS
-    (58) unaryOp -> . PLUS
-    (59) factor -> . variable
-    (60) factor -> . variableType
-    (61) factor -> . IDENTIFIER
-    (62) factor -> . LEFT_PAR expression RIGHT_PAR
+    (54) multiNegExp -> . unaryOp multiNegExp
+    (55) multiNegExp -> . factor
+    (56) unaryOp -> . MINUS
+    (57) unaryOp -> . PLUS
+    (58) factor -> . variable
+    (59) factor -> . variableType
+    (60) factor -> . IDENTIFIER
+    (61) factor -> . LEFT_PAR expression RIGHT_PAR
     (8) variable -> . DOLLAR IDENTIFIER
-    (13) variableType -> . number
+    (11) variableType -> . number
     (14) variableType -> . STRING
     (15) variableType -> . TRUE
     (16) variableType -> . FALSE
-    (11) number -> . INTEGER
-    (12) number -> . FLOAT
+    (12) number -> . INTEGER
+    (13) number -> . FLOAT
 
     MINUS           shift and go to state 14
     PLUS            shift and go to state 16
@@ -1381,52 +1383,20 @@ state 43
     LEFT_PAR        shift and go to state 36
     DOLLAR          shift and go to state 24
     STRING          shift and go to state 10
-    TRUE            shift and go to state 59
-    FALSE           shift and go to state 62
+    TRUE            shift and go to state 58
+    FALSE           shift and go to state 61
     INTEGER         shift and go to state 19
     FLOAT           shift and go to state 32
 
-    term                           shift and go to state 77
-    variableType                   shift and go to state 3
+    term                           shift and go to state 76
+    variableType                   shift and go to state 7
     unaryOp                        shift and go to state 31
     multiNegExp                    shift and go to state 9
     number                         shift and go to state 11
     factor                         shift and go to state 18
-    variable                       shift and go to state 61
-
-state 44
-
-    (52) multiSign -> EXP .
-
-    MINUS           reduce using rule 52 (multiSign -> EXP .)
-    PLUS            reduce using rule 52 (multiSign -> EXP .)
-    STRING          reduce using rule 52 (multiSign -> EXP .)
-    TRUE            reduce using rule 52 (multiSign -> EXP .)
-    FALSE           reduce using rule 52 (multiSign -> EXP .)
-    IDENTIFIER      reduce using rule 52 (multiSign -> EXP .)
-    LEFT_PAR        reduce using rule 52 (multiSign -> EXP .)
-    DOLLAR          reduce using rule 52 (multiSign -> EXP .)
-    INTEGER         reduce using rule 52 (multiSign -> EXP .)
-    FLOAT           reduce using rule 52 (multiSign -> EXP .)
-
+    variable                       shift and go to state 60
 
 state 45
-
-    (54) multiSign -> BETWEEN .
-
-    MINUS           reduce using rule 54 (multiSign -> BETWEEN .)
-    PLUS            reduce using rule 54 (multiSign -> BETWEEN .)
-    STRING          reduce using rule 54 (multiSign -> BETWEEN .)
-    TRUE            reduce using rule 54 (multiSign -> BETWEEN .)
-    FALSE           reduce using rule 54 (multiSign -> BETWEEN .)
-    IDENTIFIER      reduce using rule 54 (multiSign -> BETWEEN .)
-    LEFT_PAR        reduce using rule 54 (multiSign -> BETWEEN .)
-    DOLLAR          reduce using rule 54 (multiSign -> BETWEEN .)
-    INTEGER         reduce using rule 54 (multiSign -> BETWEEN .)
-    FLOAT           reduce using rule 54 (multiSign -> BETWEEN .)
-
-
-state 46
 
     (35) andExp -> TRUE AND . compExp
     (38) compExp -> . sumExp compSign sumExp
@@ -1435,21 +1405,21 @@ state 46
     (47) sumExp -> . term
     (50) term -> . multiNegExp multiSign term
     (51) term -> . multiNegExp
-    (55) multiNegExp -> . unaryOp multiNegExp
-    (56) multiNegExp -> . factor
-    (57) unaryOp -> . MINUS
-    (58) unaryOp -> . PLUS
-    (59) factor -> . variable
-    (60) factor -> . variableType
-    (61) factor -> . IDENTIFIER
-    (62) factor -> . LEFT_PAR expression RIGHT_PAR
+    (54) multiNegExp -> . unaryOp multiNegExp
+    (55) multiNegExp -> . factor
+    (56) unaryOp -> . MINUS
+    (57) unaryOp -> . PLUS
+    (58) factor -> . variable
+    (59) factor -> . variableType
+    (60) factor -> . IDENTIFIER
+    (61) factor -> . LEFT_PAR expression RIGHT_PAR
     (8) variable -> . DOLLAR IDENTIFIER
-    (13) variableType -> . number
+    (11) variableType -> . number
     (14) variableType -> . STRING
     (15) variableType -> . TRUE
     (16) variableType -> . FALSE
-    (11) number -> . INTEGER
-    (12) number -> . FLOAT
+    (12) number -> . INTEGER
+    (13) number -> . FLOAT
 
     MINUS           shift and go to state 14
     PLUS            shift and go to state 16
@@ -1457,22 +1427,22 @@ state 46
     LEFT_PAR        shift and go to state 36
     DOLLAR          shift and go to state 24
     STRING          shift and go to state 10
-    TRUE            shift and go to state 59
-    FALSE           shift and go to state 62
+    TRUE            shift and go to state 58
+    FALSE           shift and go to state 61
     INTEGER         shift and go to state 19
     FLOAT           shift and go to state 32
 
     term                           shift and go to state 25
-    variableType                   shift and go to state 3
+    variableType                   shift and go to state 7
     unaryOp                        shift and go to state 31
     factor                         shift and go to state 18
-    compExp                        shift and go to state 78
+    compExp                        shift and go to state 77
     number                         shift and go to state 11
     sumExp                         shift and go to state 34
     multiNegExp                    shift and go to state 9
-    variable                       shift and go to state 61
+    variable                       shift and go to state 60
 
-state 47
+state 46
 
     (32) logicalExp -> TRUE OR . andExp
     (35) andExp -> . TRUE AND compExp
@@ -1484,24 +1454,24 @@ state 47
     (47) sumExp -> . term
     (50) term -> . multiNegExp multiSign term
     (51) term -> . multiNegExp
-    (55) multiNegExp -> . unaryOp multiNegExp
-    (56) multiNegExp -> . factor
-    (57) unaryOp -> . MINUS
-    (58) unaryOp -> . PLUS
-    (59) factor -> . variable
-    (60) factor -> . variableType
-    (61) factor -> . IDENTIFIER
-    (62) factor -> . LEFT_PAR expression RIGHT_PAR
+    (54) multiNegExp -> . unaryOp multiNegExp
+    (55) multiNegExp -> . factor
+    (56) unaryOp -> . MINUS
+    (57) unaryOp -> . PLUS
+    (58) factor -> . variable
+    (59) factor -> . variableType
+    (60) factor -> . IDENTIFIER
+    (61) factor -> . LEFT_PAR expression RIGHT_PAR
     (8) variable -> . DOLLAR IDENTIFIER
-    (13) variableType -> . number
+    (11) variableType -> . number
     (14) variableType -> . STRING
     (15) variableType -> . TRUE
     (16) variableType -> . FALSE
-    (11) number -> . INTEGER
-    (12) number -> . FLOAT
+    (12) number -> . INTEGER
+    (13) number -> . FLOAT
 
-    TRUE            shift and go to state 79
-    FALSE           shift and go to state 81
+    TRUE            shift and go to state 78
+    FALSE           shift and go to state 80
     MINUS           shift and go to state 14
     PLUS            shift and go to state 16
     IDENTIFIER      shift and go to state 20
@@ -1511,18 +1481,18 @@ state 47
     INTEGER         shift and go to state 19
     FLOAT           shift and go to state 32
 
-    andExp                         shift and go to state 80
-    variableType                   shift and go to state 3
+    andExp                         shift and go to state 79
+    variableType                   shift and go to state 7
     unaryOp                        shift and go to state 31
     factor                         shift and go to state 18
     term                           shift and go to state 25
     compExp                        shift and go to state 33
     sumExp                         shift and go to state 34
     multiNegExp                    shift and go to state 9
-    variable                       shift and go to state 61
+    variable                       shift and go to state 60
     number                         shift and go to state 11
 
-state 48
+state 47
 
     (8) variable -> DOLLAR IDENTIFIER .
 
@@ -1530,17 +1500,10 @@ state 48
     PLUS_ONE        reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
     MINUS_ONE       reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
     RIGHT_PAR       reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
-    EXP             reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
     STAR            reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
     BETWEEN         reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
     MINUS           reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
     PLUS            reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
-    LESS_OR_EQUAL   reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
-    LESS_THAN       reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
-    MORE_THAN       reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
-    GREATER_OR_EQUAL reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
-    EQ              reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
-    NEQ             reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
     IF              reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
     WHILE           reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
     USE             reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
@@ -1554,10 +1517,16 @@ state 48
     INTEGER         reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
     FLOAT           reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
     $end            reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
+    LESS_OR_EQUAL   reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
+    LESS_THAN       reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
+    MORE_THAN       reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
+    GREATER_OR_EQUAL reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
+    EQ              reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
+    NEQ             reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
     RIGHT_BRACE     reduce using rule 8 (variable -> DOLLAR IDENTIFIER .)
 
 
-state 49
+state 48
 
     (49) sumSign -> PLUS .
 
@@ -1573,28 +1542,28 @@ state 49
     FLOAT           reduce using rule 49 (sumSign -> PLUS .)
 
 
-state 50
+state 49
 
     (46) sumExp -> term sumSign . sumExp
     (46) sumExp -> . term sumSign sumExp
     (47) sumExp -> . term
     (50) term -> . multiNegExp multiSign term
     (51) term -> . multiNegExp
-    (55) multiNegExp -> . unaryOp multiNegExp
-    (56) multiNegExp -> . factor
-    (57) unaryOp -> . MINUS
-    (58) unaryOp -> . PLUS
-    (59) factor -> . variable
-    (60) factor -> . variableType
-    (61) factor -> . IDENTIFIER
-    (62) factor -> . LEFT_PAR expression RIGHT_PAR
+    (54) multiNegExp -> . unaryOp multiNegExp
+    (55) multiNegExp -> . factor
+    (56) unaryOp -> . MINUS
+    (57) unaryOp -> . PLUS
+    (58) factor -> . variable
+    (59) factor -> . variableType
+    (60) factor -> . IDENTIFIER
+    (61) factor -> . LEFT_PAR expression RIGHT_PAR
     (8) variable -> . DOLLAR IDENTIFIER
-    (13) variableType -> . number
+    (11) variableType -> . number
     (14) variableType -> . STRING
     (15) variableType -> . TRUE
     (16) variableType -> . FALSE
-    (11) number -> . INTEGER
-    (12) number -> . FLOAT
+    (12) number -> . INTEGER
+    (13) number -> . FLOAT
 
     MINUS           shift and go to state 14
     PLUS            shift and go to state 16
@@ -1602,21 +1571,21 @@ state 50
     LEFT_PAR        shift and go to state 36
     DOLLAR          shift and go to state 24
     STRING          shift and go to state 10
-    TRUE            shift and go to state 59
-    FALSE           shift and go to state 62
+    TRUE            shift and go to state 58
+    FALSE           shift and go to state 61
     INTEGER         shift and go to state 19
     FLOAT           shift and go to state 32
 
     term                           shift and go to state 25
-    variableType                   shift and go to state 3
+    variableType                   shift and go to state 7
     unaryOp                        shift and go to state 31
     factor                         shift and go to state 18
     number                         shift and go to state 11
-    sumExp                         shift and go to state 82
+    sumExp                         shift and go to state 81
     multiNegExp                    shift and go to state 9
-    variable                       shift and go to state 61
+    variable                       shift and go to state 60
 
-state 51
+state 50
 
     (48) sumSign -> MINUS .
 
@@ -1632,7 +1601,7 @@ state 51
     FLOAT           reduce using rule 48 (sumSign -> MINUS .)
 
 
-state 52
+state 51
 
     (2) declarationList -> declaration declarationList .
 
@@ -1640,7 +1609,7 @@ state 52
     RIGHT_BRACE     reduce using rule 2 (declarationList -> declaration declarationList .)
 
 
-state 53
+state 52
 
     (20) sumLessExpression -> variable PLUS_ONE .
 
@@ -1663,7 +1632,7 @@ state 53
     RIGHT_BRACE     reduce using rule 20 (sumLessExpression -> variable PLUS_ONE .)
 
 
-state 54
+state 53
 
     (21) sumLessExpression -> variable MINUS_ONE .
 
@@ -1686,28 +1655,52 @@ state 54
     RIGHT_BRACE     reduce using rule 21 (sumLessExpression -> variable MINUS_ONE .)
 
 
-state 55
+state 54
 
-    (9) varDeclaration -> variable ASSIGN . variableType
+    (9) varDeclaration -> variable ASSIGN . sumExp
     (10) varDeclaration -> variable ASSIGN . STDIN
-    (13) variableType -> . number
+    (46) sumExp -> . term sumSign sumExp
+    (47) sumExp -> . term
+    (50) term -> . multiNegExp multiSign term
+    (51) term -> . multiNegExp
+    (54) multiNegExp -> . unaryOp multiNegExp
+    (55) multiNegExp -> . factor
+    (56) unaryOp -> . MINUS
+    (57) unaryOp -> . PLUS
+    (58) factor -> . variable
+    (59) factor -> . variableType
+    (60) factor -> . IDENTIFIER
+    (61) factor -> . LEFT_PAR expression RIGHT_PAR
+    (8) variable -> . DOLLAR IDENTIFIER
+    (11) variableType -> . number
     (14) variableType -> . STRING
     (15) variableType -> . TRUE
     (16) variableType -> . FALSE
-    (11) number -> . INTEGER
-    (12) number -> . FLOAT
+    (12) number -> . INTEGER
+    (13) number -> . FLOAT
 
-    STDIN           shift and go to state 84
+    STDIN           shift and go to state 82
+    MINUS           shift and go to state 14
+    PLUS            shift and go to state 16
+    IDENTIFIER      shift and go to state 20
+    LEFT_PAR        shift and go to state 36
+    DOLLAR          shift and go to state 24
     STRING          shift and go to state 10
-    TRUE            shift and go to state 59
-    FALSE           shift and go to state 62
+    TRUE            shift and go to state 58
+    FALSE           shift and go to state 61
     INTEGER         shift and go to state 19
     FLOAT           shift and go to state 32
 
-    variableType                   shift and go to state 83
+    term                           shift and go to state 25
+    variableType                   shift and go to state 7
+    unaryOp                        shift and go to state 31
+    factor                         shift and go to state 18
     number                         shift and go to state 11
+    sumExp                         shift and go to state 83
+    multiNegExp                    shift and go to state 9
+    variable                       shift and go to state 60
 
-state 56
+state 55
 
     (27) matchedif -> IF LEFT_PAR . logicalExp RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE ELSE LEFT_BRACE declarationList RIGHT_BRACE
     (28) unmatchedif -> IF LEFT_PAR . logicalExp RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE
@@ -1723,21 +1716,21 @@ state 56
     (47) sumExp -> . term
     (50) term -> . multiNegExp multiSign term
     (51) term -> . multiNegExp
-    (55) multiNegExp -> . unaryOp multiNegExp
-    (56) multiNegExp -> . factor
-    (57) unaryOp -> . MINUS
-    (58) unaryOp -> . PLUS
-    (59) factor -> . variable
-    (60) factor -> . variableType
-    (61) factor -> . IDENTIFIER
-    (62) factor -> . LEFT_PAR expression RIGHT_PAR
+    (54) multiNegExp -> . unaryOp multiNegExp
+    (55) multiNegExp -> . factor
+    (56) unaryOp -> . MINUS
+    (57) unaryOp -> . PLUS
+    (58) factor -> . variable
+    (59) factor -> . variableType
+    (60) factor -> . IDENTIFIER
+    (61) factor -> . LEFT_PAR expression RIGHT_PAR
     (8) variable -> . DOLLAR IDENTIFIER
-    (13) variableType -> . number
+    (11) variableType -> . number
     (14) variableType -> . STRING
     (15) variableType -> . TRUE
     (16) variableType -> . FALSE
-    (11) number -> . INTEGER
-    (12) number -> . FLOAT
+    (12) number -> . INTEGER
+    (13) number -> . FLOAT
 
     TRUE            shift and go to state 13
     FALSE           shift and go to state 30
@@ -1751,18 +1744,18 @@ state 56
     FLOAT           shift and go to state 32
 
     andExp                         shift and go to state 29
-    variableType                   shift and go to state 3
+    variableType                   shift and go to state 7
     unaryOp                        shift and go to state 31
     compExp                        shift and go to state 33
     number                         shift and go to state 11
     sumExp                         shift and go to state 34
     term                           shift and go to state 25
     multiNegExp                    shift and go to state 9
-    variable                       shift and go to state 61
+    variable                       shift and go to state 60
     factor                         shift and go to state 18
-    logicalExp                     shift and go to state 85
+    logicalExp                     shift and go to state 84
 
-state 57
+state 56
 
     (36) andExp -> FALSE AND . compExp
     (38) compExp -> . sumExp compSign sumExp
@@ -1771,21 +1764,21 @@ state 57
     (47) sumExp -> . term
     (50) term -> . multiNegExp multiSign term
     (51) term -> . multiNegExp
-    (55) multiNegExp -> . unaryOp multiNegExp
-    (56) multiNegExp -> . factor
-    (57) unaryOp -> . MINUS
-    (58) unaryOp -> . PLUS
-    (59) factor -> . variable
-    (60) factor -> . variableType
-    (61) factor -> . IDENTIFIER
-    (62) factor -> . LEFT_PAR expression RIGHT_PAR
+    (54) multiNegExp -> . unaryOp multiNegExp
+    (55) multiNegExp -> . factor
+    (56) unaryOp -> . MINUS
+    (57) unaryOp -> . PLUS
+    (58) factor -> . variable
+    (59) factor -> . variableType
+    (60) factor -> . IDENTIFIER
+    (61) factor -> . LEFT_PAR expression RIGHT_PAR
     (8) variable -> . DOLLAR IDENTIFIER
-    (13) variableType -> . number
+    (11) variableType -> . number
     (14) variableType -> . STRING
     (15) variableType -> . TRUE
     (16) variableType -> . FALSE
-    (11) number -> . INTEGER
-    (12) number -> . FLOAT
+    (12) number -> . INTEGER
+    (13) number -> . FLOAT
 
     MINUS           shift and go to state 14
     PLUS            shift and go to state 16
@@ -1793,22 +1786,22 @@ state 57
     LEFT_PAR        shift and go to state 36
     DOLLAR          shift and go to state 24
     STRING          shift and go to state 10
-    TRUE            shift and go to state 59
-    FALSE           shift and go to state 62
+    TRUE            shift and go to state 58
+    FALSE           shift and go to state 61
     INTEGER         shift and go to state 19
     FLOAT           shift and go to state 32
 
     term                           shift and go to state 25
-    variableType                   shift and go to state 3
+    variableType                   shift and go to state 7
     unaryOp                        shift and go to state 31
     factor                         shift and go to state 18
-    compExp                        shift and go to state 86
+    compExp                        shift and go to state 85
     number                         shift and go to state 11
     sumExp                         shift and go to state 34
     multiNegExp                    shift and go to state 9
-    variable                       shift and go to state 61
+    variable                       shift and go to state 60
 
-state 58
+state 57
 
     (33) logicalExp -> FALSE OR . andExp
     (35) andExp -> . TRUE AND compExp
@@ -1820,24 +1813,24 @@ state 58
     (47) sumExp -> . term
     (50) term -> . multiNegExp multiSign term
     (51) term -> . multiNegExp
-    (55) multiNegExp -> . unaryOp multiNegExp
-    (56) multiNegExp -> . factor
-    (57) unaryOp -> . MINUS
-    (58) unaryOp -> . PLUS
-    (59) factor -> . variable
-    (60) factor -> . variableType
-    (61) factor -> . IDENTIFIER
-    (62) factor -> . LEFT_PAR expression RIGHT_PAR
+    (54) multiNegExp -> . unaryOp multiNegExp
+    (55) multiNegExp -> . factor
+    (56) unaryOp -> . MINUS
+    (57) unaryOp -> . PLUS
+    (58) factor -> . variable
+    (59) factor -> . variableType
+    (60) factor -> . IDENTIFIER
+    (61) factor -> . LEFT_PAR expression RIGHT_PAR
     (8) variable -> . DOLLAR IDENTIFIER
-    (13) variableType -> . number
+    (11) variableType -> . number
     (14) variableType -> . STRING
     (15) variableType -> . TRUE
     (16) variableType -> . FALSE
-    (11) number -> . INTEGER
-    (12) number -> . FLOAT
+    (12) number -> . INTEGER
+    (13) number -> . FLOAT
 
-    TRUE            shift and go to state 79
-    FALSE           shift and go to state 81
+    TRUE            shift and go to state 78
+    FALSE           shift and go to state 80
     MINUS           shift and go to state 14
     PLUS            shift and go to state 16
     IDENTIFIER      shift and go to state 20
@@ -1847,18 +1840,18 @@ state 58
     INTEGER         shift and go to state 19
     FLOAT           shift and go to state 32
 
-    andExp                         shift and go to state 87
-    variableType                   shift and go to state 3
+    andExp                         shift and go to state 86
+    variableType                   shift and go to state 7
     unaryOp                        shift and go to state 31
     factor                         shift and go to state 18
     term                           shift and go to state 25
     compExp                        shift and go to state 33
     sumExp                         shift and go to state 34
     multiNegExp                    shift and go to state 9
-    variable                       shift and go to state 61
+    variable                       shift and go to state 60
     number                         shift and go to state 11
 
-state 59
+state 58
 
     (15) variableType -> TRUE .
 
@@ -1878,7 +1871,6 @@ state 59
     FLOAT           reduce using rule 15 (variableType -> TRUE .)
     $end            reduce using rule 15 (variableType -> TRUE .)
     RIGHT_PAR       reduce using rule 15 (variableType -> TRUE .)
-    EXP             reduce using rule 15 (variableType -> TRUE .)
     STAR            reduce using rule 15 (variableType -> TRUE .)
     BETWEEN         reduce using rule 15 (variableType -> TRUE .)
     LESS_OR_EQUAL   reduce using rule 15 (variableType -> TRUE .)
@@ -1890,71 +1882,69 @@ state 59
     RIGHT_BRACE     reduce using rule 15 (variableType -> TRUE .)
 
 
+state 59
+
+    (54) multiNegExp -> unaryOp multiNegExp .
+
+    STAR            reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+    BETWEEN         reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+    MINUS           reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+    PLUS            reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+    IF              reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+    WHILE           reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+    USE             reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+    DOLLAR          reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+    TRUE            reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+    FALSE           reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+    PRINT           reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+    STRING          reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+    IDENTIFIER      reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+    LEFT_PAR        reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+    INTEGER         reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+    FLOAT           reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+    $end            reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+    LESS_OR_EQUAL   reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+    LESS_THAN       reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+    MORE_THAN       reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+    GREATER_OR_EQUAL reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+    EQ              reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+    NEQ             reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+    RIGHT_PAR       reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+    RIGHT_BRACE     reduce using rule 54 (multiNegExp -> unaryOp multiNegExp .)
+
+
 state 60
 
-    (55) multiNegExp -> unaryOp multiNegExp .
+    (58) factor -> variable .
 
-    EXP             reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    STAR            reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    BETWEEN         reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    MINUS           reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    PLUS            reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    LESS_OR_EQUAL   reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    LESS_THAN       reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    MORE_THAN       reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    GREATER_OR_EQUAL reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    EQ              reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    NEQ             reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    RIGHT_PAR       reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    IF              reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    WHILE           reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    USE             reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    DOLLAR          reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    TRUE            reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    FALSE           reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    PRINT           reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    STRING          reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    IDENTIFIER      reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    LEFT_PAR        reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    INTEGER         reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    FLOAT           reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    $end            reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
-    RIGHT_BRACE     reduce using rule 55 (multiNegExp -> unaryOp multiNegExp .)
+    RIGHT_PAR       reduce using rule 58 (factor -> variable .)
+    STAR            reduce using rule 58 (factor -> variable .)
+    BETWEEN         reduce using rule 58 (factor -> variable .)
+    MINUS           reduce using rule 58 (factor -> variable .)
+    PLUS            reduce using rule 58 (factor -> variable .)
+    IF              reduce using rule 58 (factor -> variable .)
+    WHILE           reduce using rule 58 (factor -> variable .)
+    USE             reduce using rule 58 (factor -> variable .)
+    DOLLAR          reduce using rule 58 (factor -> variable .)
+    TRUE            reduce using rule 58 (factor -> variable .)
+    FALSE           reduce using rule 58 (factor -> variable .)
+    PRINT           reduce using rule 58 (factor -> variable .)
+    STRING          reduce using rule 58 (factor -> variable .)
+    IDENTIFIER      reduce using rule 58 (factor -> variable .)
+    LEFT_PAR        reduce using rule 58 (factor -> variable .)
+    INTEGER         reduce using rule 58 (factor -> variable .)
+    FLOAT           reduce using rule 58 (factor -> variable .)
+    $end            reduce using rule 58 (factor -> variable .)
+    LESS_OR_EQUAL   reduce using rule 58 (factor -> variable .)
+    LESS_THAN       reduce using rule 58 (factor -> variable .)
+    MORE_THAN       reduce using rule 58 (factor -> variable .)
+    GREATER_OR_EQUAL reduce using rule 58 (factor -> variable .)
+    EQ              reduce using rule 58 (factor -> variable .)
+    NEQ             reduce using rule 58 (factor -> variable .)
+    RIGHT_BRACE     reduce using rule 58 (factor -> variable .)
 
 
 state 61
-
-    (59) factor -> variable .
-
-    RIGHT_PAR       reduce using rule 59 (factor -> variable .)
-    EXP             reduce using rule 59 (factor -> variable .)
-    STAR            reduce using rule 59 (factor -> variable .)
-    BETWEEN         reduce using rule 59 (factor -> variable .)
-    MINUS           reduce using rule 59 (factor -> variable .)
-    PLUS            reduce using rule 59 (factor -> variable .)
-    LESS_OR_EQUAL   reduce using rule 59 (factor -> variable .)
-    LESS_THAN       reduce using rule 59 (factor -> variable .)
-    MORE_THAN       reduce using rule 59 (factor -> variable .)
-    GREATER_OR_EQUAL reduce using rule 59 (factor -> variable .)
-    EQ              reduce using rule 59 (factor -> variable .)
-    NEQ             reduce using rule 59 (factor -> variable .)
-    IF              reduce using rule 59 (factor -> variable .)
-    WHILE           reduce using rule 59 (factor -> variable .)
-    USE             reduce using rule 59 (factor -> variable .)
-    DOLLAR          reduce using rule 59 (factor -> variable .)
-    TRUE            reduce using rule 59 (factor -> variable .)
-    FALSE           reduce using rule 59 (factor -> variable .)
-    PRINT           reduce using rule 59 (factor -> variable .)
-    STRING          reduce using rule 59 (factor -> variable .)
-    IDENTIFIER      reduce using rule 59 (factor -> variable .)
-    LEFT_PAR        reduce using rule 59 (factor -> variable .)
-    INTEGER         reduce using rule 59 (factor -> variable .)
-    FLOAT           reduce using rule 59 (factor -> variable .)
-    $end            reduce using rule 59 (factor -> variable .)
-    RIGHT_BRACE     reduce using rule 59 (factor -> variable .)
-
-
-state 62
 
     (16) variableType -> FALSE .
 
@@ -1974,7 +1964,6 @@ state 62
     FLOAT           reduce using rule 16 (variableType -> FALSE .)
     $end            reduce using rule 16 (variableType -> FALSE .)
     RIGHT_PAR       reduce using rule 16 (variableType -> FALSE .)
-    EXP             reduce using rule 16 (variableType -> FALSE .)
     STAR            reduce using rule 16 (variableType -> FALSE .)
     BETWEEN         reduce using rule 16 (variableType -> FALSE .)
     LESS_OR_EQUAL   reduce using rule 16 (variableType -> FALSE .)
@@ -1986,7 +1975,7 @@ state 62
     RIGHT_BRACE     reduce using rule 16 (variableType -> FALSE .)
 
 
-state 63
+state 62
 
     (42) compSign -> MORE_THAN .
 
@@ -2002,7 +1991,7 @@ state 63
     FLOAT           reduce using rule 42 (compSign -> MORE_THAN .)
 
 
-state 64
+state 63
 
     (40) compSign -> LESS_OR_EQUAL .
 
@@ -2018,7 +2007,7 @@ state 64
     FLOAT           reduce using rule 40 (compSign -> LESS_OR_EQUAL .)
 
 
-state 65
+state 64
 
     (43) compSign -> GREATER_OR_EQUAL .
 
@@ -2034,28 +2023,28 @@ state 65
     FLOAT           reduce using rule 43 (compSign -> GREATER_OR_EQUAL .)
 
 
-state 66
+state 65
 
     (38) compExp -> sumExp compSign . sumExp
     (46) sumExp -> . term sumSign sumExp
     (47) sumExp -> . term
     (50) term -> . multiNegExp multiSign term
     (51) term -> . multiNegExp
-    (55) multiNegExp -> . unaryOp multiNegExp
-    (56) multiNegExp -> . factor
-    (57) unaryOp -> . MINUS
-    (58) unaryOp -> . PLUS
-    (59) factor -> . variable
-    (60) factor -> . variableType
-    (61) factor -> . IDENTIFIER
-    (62) factor -> . LEFT_PAR expression RIGHT_PAR
+    (54) multiNegExp -> . unaryOp multiNegExp
+    (55) multiNegExp -> . factor
+    (56) unaryOp -> . MINUS
+    (57) unaryOp -> . PLUS
+    (58) factor -> . variable
+    (59) factor -> . variableType
+    (60) factor -> . IDENTIFIER
+    (61) factor -> . LEFT_PAR expression RIGHT_PAR
     (8) variable -> . DOLLAR IDENTIFIER
-    (13) variableType -> . number
+    (11) variableType -> . number
     (14) variableType -> . STRING
     (15) variableType -> . TRUE
     (16) variableType -> . FALSE
-    (11) number -> . INTEGER
-    (12) number -> . FLOAT
+    (12) number -> . INTEGER
+    (13) number -> . FLOAT
 
     MINUS           shift and go to state 14
     PLUS            shift and go to state 16
@@ -2063,21 +2052,21 @@ state 66
     LEFT_PAR        shift and go to state 36
     DOLLAR          shift and go to state 24
     STRING          shift and go to state 10
-    TRUE            shift and go to state 59
-    FALSE           shift and go to state 62
+    TRUE            shift and go to state 58
+    FALSE           shift and go to state 61
     INTEGER         shift and go to state 19
     FLOAT           shift and go to state 32
 
     term                           shift and go to state 25
-    variableType                   shift and go to state 3
+    variableType                   shift and go to state 7
     unaryOp                        shift and go to state 31
     factor                         shift and go to state 18
     number                         shift and go to state 11
-    sumExp                         shift and go to state 88
+    sumExp                         shift and go to state 87
     multiNegExp                    shift and go to state 9
-    variable                       shift and go to state 61
+    variable                       shift and go to state 60
 
-state 67
+state 66
 
     (41) compSign -> LESS_THAN .
 
@@ -2093,7 +2082,7 @@ state 67
     FLOAT           reduce using rule 41 (compSign -> LESS_THAN .)
 
 
-state 68
+state 67
 
     (44) compSign -> EQ .
 
@@ -2109,7 +2098,7 @@ state 68
     FLOAT           reduce using rule 44 (compSign -> EQ .)
 
 
-state 69
+state 68
 
     (45) compSign -> NEQ .
 
@@ -2125,126 +2114,117 @@ state 69
     FLOAT           reduce using rule 45 (compSign -> NEQ .)
 
 
-state 70
+state 69
 
     (20) sumLessExpression -> variable . PLUS_ONE
     (21) sumLessExpression -> variable . MINUS_ONE
-    (59) factor -> variable .
+    (58) factor -> variable .
 
-    PLUS_ONE        shift and go to state 53
-    MINUS_ONE       shift and go to state 54
-    RIGHT_PAR       reduce using rule 59 (factor -> variable .)
-    EXP             reduce using rule 59 (factor -> variable .)
-    STAR            reduce using rule 59 (factor -> variable .)
-    BETWEEN         reduce using rule 59 (factor -> variable .)
-    MINUS           reduce using rule 59 (factor -> variable .)
-    PLUS            reduce using rule 59 (factor -> variable .)
-    LESS_OR_EQUAL   reduce using rule 59 (factor -> variable .)
-    LESS_THAN       reduce using rule 59 (factor -> variable .)
-    MORE_THAN       reduce using rule 59 (factor -> variable .)
-    GREATER_OR_EQUAL reduce using rule 59 (factor -> variable .)
-    EQ              reduce using rule 59 (factor -> variable .)
-    NEQ             reduce using rule 59 (factor -> variable .)
-    IF              reduce using rule 59 (factor -> variable .)
-    WHILE           reduce using rule 59 (factor -> variable .)
-    USE             reduce using rule 59 (factor -> variable .)
-    DOLLAR          reduce using rule 59 (factor -> variable .)
-    TRUE            reduce using rule 59 (factor -> variable .)
-    FALSE           reduce using rule 59 (factor -> variable .)
-    PRINT           reduce using rule 59 (factor -> variable .)
-    STRING          reduce using rule 59 (factor -> variable .)
-    IDENTIFIER      reduce using rule 59 (factor -> variable .)
-    LEFT_PAR        reduce using rule 59 (factor -> variable .)
-    INTEGER         reduce using rule 59 (factor -> variable .)
-    FLOAT           reduce using rule 59 (factor -> variable .)
-    $end            reduce using rule 59 (factor -> variable .)
-    RIGHT_BRACE     reduce using rule 59 (factor -> variable .)
+    PLUS_ONE        shift and go to state 52
+    MINUS_ONE       shift and go to state 53
+    RIGHT_PAR       reduce using rule 58 (factor -> variable .)
+    STAR            reduce using rule 58 (factor -> variable .)
+    BETWEEN         reduce using rule 58 (factor -> variable .)
+    MINUS           reduce using rule 58 (factor -> variable .)
+    PLUS            reduce using rule 58 (factor -> variable .)
+    IF              reduce using rule 58 (factor -> variable .)
+    WHILE           reduce using rule 58 (factor -> variable .)
+    USE             reduce using rule 58 (factor -> variable .)
+    DOLLAR          reduce using rule 58 (factor -> variable .)
+    TRUE            reduce using rule 58 (factor -> variable .)
+    FALSE           reduce using rule 58 (factor -> variable .)
+    PRINT           reduce using rule 58 (factor -> variable .)
+    STRING          reduce using rule 58 (factor -> variable .)
+    IDENTIFIER      reduce using rule 58 (factor -> variable .)
+    LEFT_PAR        reduce using rule 58 (factor -> variable .)
+    INTEGER         reduce using rule 58 (factor -> variable .)
+    FLOAT           reduce using rule 58 (factor -> variable .)
+    $end            reduce using rule 58 (factor -> variable .)
+    LESS_OR_EQUAL   reduce using rule 58 (factor -> variable .)
+    LESS_THAN       reduce using rule 58 (factor -> variable .)
+    MORE_THAN       reduce using rule 58 (factor -> variable .)
+    GREATER_OR_EQUAL reduce using rule 58 (factor -> variable .)
+    EQ              reduce using rule 58 (factor -> variable .)
+    NEQ             reduce using rule 58 (factor -> variable .)
+    RIGHT_BRACE     reduce using rule 58 (factor -> variable .)
+
+
+state 70
+
+    (61) factor -> LEFT_PAR expression . RIGHT_PAR
+
+    RIGHT_PAR       shift and go to state 88
 
 
 state 71
 
-    (62) factor -> LEFT_PAR expression . RIGHT_PAR
+    (17) constDeclaration -> USE CONSTANT IDENTIFIER . CONST_ASSIGN variableType
 
-    RIGHT_PAR       shift and go to state 89
+    CONST_ASSIGN    shift and go to state 89
 
 
 state 72
 
-    (17) constDeclaration -> USE CONSTANT IDENTIFIER . CONST_ASSIGN variableType
+    (29) loopStmt -> WHILE LEFT_PAR logicalExp . RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE
 
-    CONST_ASSIGN    shift and go to state 90
+    RIGHT_PAR       shift and go to state 90
 
 
 state 73
 
-    (29) loopStmt -> WHILE LEFT_PAR logicalExp . RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE
+    (19) funcDeclaration -> PRINT LEFT_PAR sumLessExpression . RIGHT_PAR
 
     RIGHT_PAR       shift and go to state 91
 
 
 state 74
 
-    (19) funcDeclaration -> PRINT LEFT_PAR sumLessExpression . RIGHT_PAR
+    (18) funcDeclaration -> PRINT LEFT_PAR factor . RIGHT_PAR
 
     RIGHT_PAR       shift and go to state 92
 
 
 state 75
 
-    (18) funcDeclaration -> PRINT LEFT_PAR factor . RIGHT_PAR
-
-    RIGHT_PAR       shift and go to state 93
-
-
-state 76
-
-    (59) factor -> variable .
+    (58) factor -> variable .
     (20) sumLessExpression -> variable . PLUS_ONE
     (21) sumLessExpression -> variable . MINUS_ONE
 
-    RIGHT_PAR       reduce using rule 59 (factor -> variable .)
-    EXP             reduce using rule 59 (factor -> variable .)
-    STAR            reduce using rule 59 (factor -> variable .)
-    BETWEEN         reduce using rule 59 (factor -> variable .)
-    MINUS           reduce using rule 59 (factor -> variable .)
-    PLUS            reduce using rule 59 (factor -> variable .)
-    LESS_OR_EQUAL   reduce using rule 59 (factor -> variable .)
-    LESS_THAN       reduce using rule 59 (factor -> variable .)
-    MORE_THAN       reduce using rule 59 (factor -> variable .)
-    GREATER_OR_EQUAL reduce using rule 59 (factor -> variable .)
-    EQ              reduce using rule 59 (factor -> variable .)
-    NEQ             reduce using rule 59 (factor -> variable .)
-    IF              reduce using rule 59 (factor -> variable .)
-    WHILE           reduce using rule 59 (factor -> variable .)
-    USE             reduce using rule 59 (factor -> variable .)
-    DOLLAR          reduce using rule 59 (factor -> variable .)
-    TRUE            reduce using rule 59 (factor -> variable .)
-    FALSE           reduce using rule 59 (factor -> variable .)
-    PRINT           reduce using rule 59 (factor -> variable .)
-    STRING          reduce using rule 59 (factor -> variable .)
-    IDENTIFIER      reduce using rule 59 (factor -> variable .)
-    LEFT_PAR        reduce using rule 59 (factor -> variable .)
-    INTEGER         reduce using rule 59 (factor -> variable .)
-    FLOAT           reduce using rule 59 (factor -> variable .)
-    $end            reduce using rule 59 (factor -> variable .)
-    RIGHT_BRACE     reduce using rule 59 (factor -> variable .)
-    PLUS_ONE        shift and go to state 53
-    MINUS_ONE       shift and go to state 54
+    RIGHT_PAR       reduce using rule 58 (factor -> variable .)
+    STAR            reduce using rule 58 (factor -> variable .)
+    BETWEEN         reduce using rule 58 (factor -> variable .)
+    MINUS           reduce using rule 58 (factor -> variable .)
+    PLUS            reduce using rule 58 (factor -> variable .)
+    IF              reduce using rule 58 (factor -> variable .)
+    WHILE           reduce using rule 58 (factor -> variable .)
+    USE             reduce using rule 58 (factor -> variable .)
+    DOLLAR          reduce using rule 58 (factor -> variable .)
+    TRUE            reduce using rule 58 (factor -> variable .)
+    FALSE           reduce using rule 58 (factor -> variable .)
+    PRINT           reduce using rule 58 (factor -> variable .)
+    STRING          reduce using rule 58 (factor -> variable .)
+    IDENTIFIER      reduce using rule 58 (factor -> variable .)
+    LEFT_PAR        reduce using rule 58 (factor -> variable .)
+    INTEGER         reduce using rule 58 (factor -> variable .)
+    FLOAT           reduce using rule 58 (factor -> variable .)
+    $end            reduce using rule 58 (factor -> variable .)
+    LESS_OR_EQUAL   reduce using rule 58 (factor -> variable .)
+    LESS_THAN       reduce using rule 58 (factor -> variable .)
+    MORE_THAN       reduce using rule 58 (factor -> variable .)
+    GREATER_OR_EQUAL reduce using rule 58 (factor -> variable .)
+    EQ              reduce using rule 58 (factor -> variable .)
+    NEQ             reduce using rule 58 (factor -> variable .)
+    RIGHT_BRACE     reduce using rule 58 (factor -> variable .)
+    PLUS_ONE        shift and go to state 52
+    MINUS_ONE       shift and go to state 53
 
 
-state 77
+state 76
 
     (50) term -> multiNegExp multiSign term .
 
     MINUS           reduce using rule 50 (term -> multiNegExp multiSign term .)
     PLUS            reduce using rule 50 (term -> multiNegExp multiSign term .)
-    LESS_OR_EQUAL   reduce using rule 50 (term -> multiNegExp multiSign term .)
-    LESS_THAN       reduce using rule 50 (term -> multiNegExp multiSign term .)
-    MORE_THAN       reduce using rule 50 (term -> multiNegExp multiSign term .)
-    GREATER_OR_EQUAL reduce using rule 50 (term -> multiNegExp multiSign term .)
-    EQ              reduce using rule 50 (term -> multiNegExp multiSign term .)
-    NEQ             reduce using rule 50 (term -> multiNegExp multiSign term .)
-    RIGHT_PAR       reduce using rule 50 (term -> multiNegExp multiSign term .)
     IF              reduce using rule 50 (term -> multiNegExp multiSign term .)
     WHILE           reduce using rule 50 (term -> multiNegExp multiSign term .)
     USE             reduce using rule 50 (term -> multiNegExp multiSign term .)
@@ -2258,10 +2238,17 @@ state 77
     INTEGER         reduce using rule 50 (term -> multiNegExp multiSign term .)
     FLOAT           reduce using rule 50 (term -> multiNegExp multiSign term .)
     $end            reduce using rule 50 (term -> multiNegExp multiSign term .)
+    LESS_OR_EQUAL   reduce using rule 50 (term -> multiNegExp multiSign term .)
+    LESS_THAN       reduce using rule 50 (term -> multiNegExp multiSign term .)
+    MORE_THAN       reduce using rule 50 (term -> multiNegExp multiSign term .)
+    GREATER_OR_EQUAL reduce using rule 50 (term -> multiNegExp multiSign term .)
+    EQ              reduce using rule 50 (term -> multiNegExp multiSign term .)
+    NEQ             reduce using rule 50 (term -> multiNegExp multiSign term .)
+    RIGHT_PAR       reduce using rule 50 (term -> multiNegExp multiSign term .)
     RIGHT_BRACE     reduce using rule 50 (term -> multiNegExp multiSign term .)
 
 
-state 78
+state 77
 
     (35) andExp -> TRUE AND compExp .
 
@@ -2284,12 +2271,12 @@ state 78
     RIGHT_BRACE     reduce using rule 35 (andExp -> TRUE AND compExp .)
 
 
-state 79
+state 78
 
     (35) andExp -> TRUE . AND compExp
     (15) variableType -> TRUE .
 
-    AND             shift and go to state 46
+    AND             shift and go to state 45
     IF              reduce using rule 15 (variableType -> TRUE .)
     WHILE           reduce using rule 15 (variableType -> TRUE .)
     USE             reduce using rule 15 (variableType -> TRUE .)
@@ -2306,7 +2293,6 @@ state 79
     FLOAT           reduce using rule 15 (variableType -> TRUE .)
     $end            reduce using rule 15 (variableType -> TRUE .)
     RIGHT_PAR       reduce using rule 15 (variableType -> TRUE .)
-    EXP             reduce using rule 15 (variableType -> TRUE .)
     STAR            reduce using rule 15 (variableType -> TRUE .)
     BETWEEN         reduce using rule 15 (variableType -> TRUE .)
     LESS_OR_EQUAL   reduce using rule 15 (variableType -> TRUE .)
@@ -2318,7 +2304,7 @@ state 79
     RIGHT_BRACE     reduce using rule 15 (variableType -> TRUE .)
 
 
-state 80
+state 79
 
     (32) logicalExp -> TRUE OR andExp .
 
@@ -2341,12 +2327,12 @@ state 80
     RIGHT_BRACE     reduce using rule 32 (logicalExp -> TRUE OR andExp .)
 
 
-state 81
+state 80
 
     (36) andExp -> FALSE . AND compExp
     (16) variableType -> FALSE .
 
-    AND             shift and go to state 57
+    AND             shift and go to state 56
     IF              reduce using rule 16 (variableType -> FALSE .)
     WHILE           reduce using rule 16 (variableType -> FALSE .)
     USE             reduce using rule 16 (variableType -> FALSE .)
@@ -2363,7 +2349,6 @@ state 81
     FLOAT           reduce using rule 16 (variableType -> FALSE .)
     $end            reduce using rule 16 (variableType -> FALSE .)
     RIGHT_PAR       reduce using rule 16 (variableType -> FALSE .)
-    EXP             reduce using rule 16 (variableType -> FALSE .)
     STAR            reduce using rule 16 (variableType -> FALSE .)
     BETWEEN         reduce using rule 16 (variableType -> FALSE .)
     LESS_OR_EQUAL   reduce using rule 16 (variableType -> FALSE .)
@@ -2375,17 +2360,10 @@ state 81
     RIGHT_BRACE     reduce using rule 16 (variableType -> FALSE .)
 
 
-state 82
+state 81
 
     (46) sumExp -> term sumSign sumExp .
 
-    LESS_OR_EQUAL   reduce using rule 46 (sumExp -> term sumSign sumExp .)
-    LESS_THAN       reduce using rule 46 (sumExp -> term sumSign sumExp .)
-    MORE_THAN       reduce using rule 46 (sumExp -> term sumSign sumExp .)
-    GREATER_OR_EQUAL reduce using rule 46 (sumExp -> term sumSign sumExp .)
-    EQ              reduce using rule 46 (sumExp -> term sumSign sumExp .)
-    NEQ             reduce using rule 46 (sumExp -> term sumSign sumExp .)
-    RIGHT_PAR       reduce using rule 46 (sumExp -> term sumSign sumExp .)
     IF              reduce using rule 46 (sumExp -> term sumSign sumExp .)
     WHILE           reduce using rule 46 (sumExp -> term sumSign sumExp .)
     USE             reduce using rule 46 (sumExp -> term sumSign sumExp .)
@@ -2401,32 +2379,17 @@ state 82
     INTEGER         reduce using rule 46 (sumExp -> term sumSign sumExp .)
     FLOAT           reduce using rule 46 (sumExp -> term sumSign sumExp .)
     $end            reduce using rule 46 (sumExp -> term sumSign sumExp .)
+    LESS_OR_EQUAL   reduce using rule 46 (sumExp -> term sumSign sumExp .)
+    LESS_THAN       reduce using rule 46 (sumExp -> term sumSign sumExp .)
+    MORE_THAN       reduce using rule 46 (sumExp -> term sumSign sumExp .)
+    GREATER_OR_EQUAL reduce using rule 46 (sumExp -> term sumSign sumExp .)
+    EQ              reduce using rule 46 (sumExp -> term sumSign sumExp .)
+    NEQ             reduce using rule 46 (sumExp -> term sumSign sumExp .)
+    RIGHT_PAR       reduce using rule 46 (sumExp -> term sumSign sumExp .)
     RIGHT_BRACE     reduce using rule 46 (sumExp -> term sumSign sumExp .)
 
 
-state 83
-
-    (9) varDeclaration -> variable ASSIGN variableType .
-
-    IF              reduce using rule 9 (varDeclaration -> variable ASSIGN variableType .)
-    WHILE           reduce using rule 9 (varDeclaration -> variable ASSIGN variableType .)
-    USE             reduce using rule 9 (varDeclaration -> variable ASSIGN variableType .)
-    DOLLAR          reduce using rule 9 (varDeclaration -> variable ASSIGN variableType .)
-    TRUE            reduce using rule 9 (varDeclaration -> variable ASSIGN variableType .)
-    FALSE           reduce using rule 9 (varDeclaration -> variable ASSIGN variableType .)
-    PRINT           reduce using rule 9 (varDeclaration -> variable ASSIGN variableType .)
-    MINUS           reduce using rule 9 (varDeclaration -> variable ASSIGN variableType .)
-    PLUS            reduce using rule 9 (varDeclaration -> variable ASSIGN variableType .)
-    STRING          reduce using rule 9 (varDeclaration -> variable ASSIGN variableType .)
-    IDENTIFIER      reduce using rule 9 (varDeclaration -> variable ASSIGN variableType .)
-    LEFT_PAR        reduce using rule 9 (varDeclaration -> variable ASSIGN variableType .)
-    INTEGER         reduce using rule 9 (varDeclaration -> variable ASSIGN variableType .)
-    FLOAT           reduce using rule 9 (varDeclaration -> variable ASSIGN variableType .)
-    $end            reduce using rule 9 (varDeclaration -> variable ASSIGN variableType .)
-    RIGHT_BRACE     reduce using rule 9 (varDeclaration -> variable ASSIGN variableType .)
-
-
-state 84
+state 82
 
     (10) varDeclaration -> variable ASSIGN STDIN .
 
@@ -2448,15 +2411,37 @@ state 84
     RIGHT_BRACE     reduce using rule 10 (varDeclaration -> variable ASSIGN STDIN .)
 
 
-state 85
+state 83
+
+    (9) varDeclaration -> variable ASSIGN sumExp .
+
+    IF              reduce using rule 9 (varDeclaration -> variable ASSIGN sumExp .)
+    WHILE           reduce using rule 9 (varDeclaration -> variable ASSIGN sumExp .)
+    USE             reduce using rule 9 (varDeclaration -> variable ASSIGN sumExp .)
+    DOLLAR          reduce using rule 9 (varDeclaration -> variable ASSIGN sumExp .)
+    TRUE            reduce using rule 9 (varDeclaration -> variable ASSIGN sumExp .)
+    FALSE           reduce using rule 9 (varDeclaration -> variable ASSIGN sumExp .)
+    PRINT           reduce using rule 9 (varDeclaration -> variable ASSIGN sumExp .)
+    MINUS           reduce using rule 9 (varDeclaration -> variable ASSIGN sumExp .)
+    PLUS            reduce using rule 9 (varDeclaration -> variable ASSIGN sumExp .)
+    STRING          reduce using rule 9 (varDeclaration -> variable ASSIGN sumExp .)
+    IDENTIFIER      reduce using rule 9 (varDeclaration -> variable ASSIGN sumExp .)
+    LEFT_PAR        reduce using rule 9 (varDeclaration -> variable ASSIGN sumExp .)
+    INTEGER         reduce using rule 9 (varDeclaration -> variable ASSIGN sumExp .)
+    FLOAT           reduce using rule 9 (varDeclaration -> variable ASSIGN sumExp .)
+    $end            reduce using rule 9 (varDeclaration -> variable ASSIGN sumExp .)
+    RIGHT_BRACE     reduce using rule 9 (varDeclaration -> variable ASSIGN sumExp .)
+
+
+state 84
 
     (27) matchedif -> IF LEFT_PAR logicalExp . RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE ELSE LEFT_BRACE declarationList RIGHT_BRACE
     (28) unmatchedif -> IF LEFT_PAR logicalExp . RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE
 
-    RIGHT_PAR       shift and go to state 94
+    RIGHT_PAR       shift and go to state 93
 
 
-state 86
+state 85
 
     (36) andExp -> FALSE AND compExp .
 
@@ -2479,7 +2464,7 @@ state 86
     RIGHT_BRACE     reduce using rule 36 (andExp -> FALSE AND compExp .)
 
 
-state 87
+state 86
 
     (33) logicalExp -> FALSE OR andExp .
 
@@ -2502,7 +2487,7 @@ state 87
     RIGHT_BRACE     reduce using rule 33 (logicalExp -> FALSE OR andExp .)
 
 
-state 88
+state 87
 
     (38) compExp -> sumExp compSign sumExp .
 
@@ -2525,65 +2510,64 @@ state 88
     RIGHT_BRACE     reduce using rule 38 (compExp -> sumExp compSign sumExp .)
 
 
+state 88
+
+    (61) factor -> LEFT_PAR expression RIGHT_PAR .
+
+    RIGHT_PAR       reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+    STAR            reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+    BETWEEN         reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+    MINUS           reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+    PLUS            reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+    IF              reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+    WHILE           reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+    USE             reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+    DOLLAR          reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+    TRUE            reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+    FALSE           reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+    PRINT           reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+    STRING          reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+    IDENTIFIER      reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+    LEFT_PAR        reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+    INTEGER         reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+    FLOAT           reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+    $end            reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+    LESS_OR_EQUAL   reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+    LESS_THAN       reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+    MORE_THAN       reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+    GREATER_OR_EQUAL reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+    EQ              reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+    NEQ             reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+    RIGHT_BRACE     reduce using rule 61 (factor -> LEFT_PAR expression RIGHT_PAR .)
+
+
 state 89
 
-    (62) factor -> LEFT_PAR expression RIGHT_PAR .
-
-    RIGHT_PAR       reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    EXP             reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    STAR            reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    BETWEEN         reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    MINUS           reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    PLUS            reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    LESS_OR_EQUAL   reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    LESS_THAN       reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    MORE_THAN       reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    GREATER_OR_EQUAL reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    EQ              reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    NEQ             reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    IF              reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    WHILE           reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    USE             reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    DOLLAR          reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    TRUE            reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    FALSE           reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    PRINT           reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    STRING          reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    IDENTIFIER      reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    LEFT_PAR        reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    INTEGER         reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    FLOAT           reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    $end            reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-    RIGHT_BRACE     reduce using rule 62 (factor -> LEFT_PAR expression RIGHT_PAR .)
-
-
-state 90
-
     (17) constDeclaration -> USE CONSTANT IDENTIFIER CONST_ASSIGN . variableType
-    (13) variableType -> . number
+    (11) variableType -> . number
     (14) variableType -> . STRING
     (15) variableType -> . TRUE
     (16) variableType -> . FALSE
-    (11) number -> . INTEGER
-    (12) number -> . FLOAT
+    (12) number -> . INTEGER
+    (13) number -> . FLOAT
 
     STRING          shift and go to state 10
-    TRUE            shift and go to state 59
-    FALSE           shift and go to state 62
+    TRUE            shift and go to state 58
+    FALSE           shift and go to state 61
     INTEGER         shift and go to state 19
     FLOAT           shift and go to state 32
 
-    variableType                   shift and go to state 95
+    variableType                   shift and go to state 94
     number                         shift and go to state 11
 
-state 91
+state 90
 
     (29) loopStmt -> WHILE LEFT_PAR logicalExp RIGHT_PAR . LEFT_BRACE declarationList RIGHT_BRACE
 
-    LEFT_BRACE      shift and go to state 96
+    LEFT_BRACE      shift and go to state 95
 
 
-state 92
+state 91
 
     (19) funcDeclaration -> PRINT LEFT_PAR sumLessExpression RIGHT_PAR .
 
@@ -2605,7 +2589,7 @@ state 92
     RIGHT_BRACE     reduce using rule 19 (funcDeclaration -> PRINT LEFT_PAR sumLessExpression RIGHT_PAR .)
 
 
-state 93
+state 92
 
     (18) funcDeclaration -> PRINT LEFT_PAR factor RIGHT_PAR .
 
@@ -2627,15 +2611,15 @@ state 93
     RIGHT_BRACE     reduce using rule 18 (funcDeclaration -> PRINT LEFT_PAR factor RIGHT_PAR .)
 
 
-state 94
+state 93
 
     (27) matchedif -> IF LEFT_PAR logicalExp RIGHT_PAR . LEFT_BRACE declarationList RIGHT_BRACE ELSE LEFT_BRACE declarationList RIGHT_BRACE
     (28) unmatchedif -> IF LEFT_PAR logicalExp RIGHT_PAR . LEFT_BRACE declarationList RIGHT_BRACE
 
-    LEFT_BRACE      shift and go to state 97
+    LEFT_BRACE      shift and go to state 96
 
 
-state 95
+state 94
 
     (17) constDeclaration -> USE CONSTANT IDENTIFIER CONST_ASSIGN variableType .
 
@@ -2657,7 +2641,7 @@ state 95
     RIGHT_BRACE     reduce using rule 17 (constDeclaration -> USE CONSTANT IDENTIFIER CONST_ASSIGN variableType .)
 
 
-state 96
+state 95
 
     (29) loopStmt -> WHILE LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE . declarationList RIGHT_BRACE
     (2) declarationList -> . declaration declarationList
@@ -2666,7 +2650,7 @@ state 96
     (5) declaration -> . statement
     (6) declaration -> . constDeclaration
     (7) declaration -> . funcDeclaration
-    (9) varDeclaration -> . variable ASSIGN variableType
+    (9) varDeclaration -> . variable ASSIGN sumExp
     (10) varDeclaration -> . variable ASSIGN STDIN
     (22) statement -> . expression
     (23) statement -> . conditionalStmt
@@ -2696,25 +2680,25 @@ state 96
     (47) sumExp -> . term
     (50) term -> . multiNegExp multiSign term
     (51) term -> . multiNegExp
-    (55) multiNegExp -> . unaryOp multiNegExp
-    (56) multiNegExp -> . factor
-    (57) unaryOp -> . MINUS
-    (58) unaryOp -> . PLUS
-    (59) factor -> . variable
-    (60) factor -> . variableType
-    (61) factor -> . IDENTIFIER
-    (62) factor -> . LEFT_PAR expression RIGHT_PAR
-    (13) variableType -> . number
+    (54) multiNegExp -> . unaryOp multiNegExp
+    (55) multiNegExp -> . factor
+    (56) unaryOp -> . MINUS
+    (57) unaryOp -> . PLUS
+    (58) factor -> . variable
+    (59) factor -> . variableType
+    (60) factor -> . IDENTIFIER
+    (61) factor -> . LEFT_PAR expression RIGHT_PAR
+    (11) variableType -> . number
     (14) variableType -> . STRING
     (15) variableType -> . TRUE
     (16) variableType -> . FALSE
-    (11) number -> . INTEGER
-    (12) number -> . FLOAT
+    (12) number -> . INTEGER
+    (13) number -> . FLOAT
 
     USE             shift and go to state 1
-    PRINT           shift and go to state 7
+    PRINT           shift and go to state 6
     DOLLAR          shift and go to state 24
-    WHILE           shift and go to state 6
+    WHILE           shift and go to state 5
     TRUE            shift and go to state 13
     FALSE           shift and go to state 30
     IF              shift and go to state 28
@@ -2727,10 +2711,104 @@ state 96
     FLOAT           shift and go to state 32
 
     varDeclaration                 shift and go to state 2
-    variableType                   shift and go to state 3
-    matchedif                      shift and go to state 4
+    variableType                   shift and go to state 7
+    matchedif                      shift and go to state 3
     number                         shift and go to state 11
-    loopStmt                       shift and go to state 5
+    loopStmt                       shift and go to state 4
+    logicalExp                     shift and go to state 8
+    multiNegExp                    shift and go to state 9
+    conditionalStmt                shift and go to state 12
+    statement                      shift and go to state 17
+    factor                         shift and go to state 18
+    sumLessExpression              shift and go to state 21
+    constDeclaration               shift and go to state 22
+    declarationList                shift and go to state 97
+    andExp                         shift and go to state 29
+    declaration                    shift and go to state 26
+    variable                       shift and go to state 27
+    term                           shift and go to state 25
+    unaryOp                        shift and go to state 31
+    compExp                        shift and go to state 33
+    sumExp                         shift and go to state 34
+    funcDeclaration                shift and go to state 35
+    unmatchedif                    shift and go to state 37
+    expression                     shift and go to state 38
+
+state 96
+
+    (27) matchedif -> IF LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE . declarationList RIGHT_BRACE ELSE LEFT_BRACE declarationList RIGHT_BRACE
+    (28) unmatchedif -> IF LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE . declarationList RIGHT_BRACE
+    (2) declarationList -> . declaration declarationList
+    (3) declarationList -> . declaration
+    (4) declaration -> . varDeclaration
+    (5) declaration -> . statement
+    (6) declaration -> . constDeclaration
+    (7) declaration -> . funcDeclaration
+    (9) varDeclaration -> . variable ASSIGN sumExp
+    (10) varDeclaration -> . variable ASSIGN STDIN
+    (22) statement -> . expression
+    (23) statement -> . conditionalStmt
+    (24) statement -> . loopStmt
+    (17) constDeclaration -> . USE CONSTANT IDENTIFIER CONST_ASSIGN variableType
+    (18) funcDeclaration -> . PRINT LEFT_PAR factor RIGHT_PAR
+    (19) funcDeclaration -> . PRINT LEFT_PAR sumLessExpression RIGHT_PAR
+    (8) variable -> . DOLLAR IDENTIFIER
+    (30) expression -> . logicalExp
+    (31) expression -> . sumLessExpression
+    (25) conditionalStmt -> . matchedif
+    (26) conditionalStmt -> . unmatchedif
+    (29) loopStmt -> . WHILE LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE
+    (32) logicalExp -> . TRUE OR andExp
+    (33) logicalExp -> . FALSE OR andExp
+    (34) logicalExp -> . andExp
+    (20) sumLessExpression -> . variable PLUS_ONE
+    (21) sumLessExpression -> . variable MINUS_ONE
+    (27) matchedif -> . IF LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE ELSE LEFT_BRACE declarationList RIGHT_BRACE
+    (28) unmatchedif -> . IF LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE
+    (35) andExp -> . TRUE AND compExp
+    (36) andExp -> . FALSE AND compExp
+    (37) andExp -> . compExp
+    (38) compExp -> . sumExp compSign sumExp
+    (39) compExp -> . sumExp
+    (46) sumExp -> . term sumSign sumExp
+    (47) sumExp -> . term
+    (50) term -> . multiNegExp multiSign term
+    (51) term -> . multiNegExp
+    (54) multiNegExp -> . unaryOp multiNegExp
+    (55) multiNegExp -> . factor
+    (56) unaryOp -> . MINUS
+    (57) unaryOp -> . PLUS
+    (58) factor -> . variable
+    (59) factor -> . variableType
+    (60) factor -> . IDENTIFIER
+    (61) factor -> . LEFT_PAR expression RIGHT_PAR
+    (11) variableType -> . number
+    (14) variableType -> . STRING
+    (15) variableType -> . TRUE
+    (16) variableType -> . FALSE
+    (12) number -> . INTEGER
+    (13) number -> . FLOAT
+
+    USE             shift and go to state 1
+    PRINT           shift and go to state 6
+    DOLLAR          shift and go to state 24
+    WHILE           shift and go to state 5
+    TRUE            shift and go to state 13
+    FALSE           shift and go to state 30
+    IF              shift and go to state 28
+    MINUS           shift and go to state 14
+    PLUS            shift and go to state 16
+    IDENTIFIER      shift and go to state 20
+    LEFT_PAR        shift and go to state 36
+    STRING          shift and go to state 10
+    INTEGER         shift and go to state 19
+    FLOAT           shift and go to state 32
+
+    varDeclaration                 shift and go to state 2
+    variableType                   shift and go to state 7
+    matchedif                      shift and go to state 3
+    number                         shift and go to state 11
+    loopStmt                       shift and go to state 4
     logicalExp                     shift and go to state 8
     multiNegExp                    shift and go to state 9
     conditionalStmt                shift and go to state 12
@@ -2752,114 +2830,20 @@ state 96
 
 state 97
 
-    (27) matchedif -> IF LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE . declarationList RIGHT_BRACE ELSE LEFT_BRACE declarationList RIGHT_BRACE
-    (28) unmatchedif -> IF LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE . declarationList RIGHT_BRACE
-    (2) declarationList -> . declaration declarationList
-    (3) declarationList -> . declaration
-    (4) declaration -> . varDeclaration
-    (5) declaration -> . statement
-    (6) declaration -> . constDeclaration
-    (7) declaration -> . funcDeclaration
-    (9) varDeclaration -> . variable ASSIGN variableType
-    (10) varDeclaration -> . variable ASSIGN STDIN
-    (22) statement -> . expression
-    (23) statement -> . conditionalStmt
-    (24) statement -> . loopStmt
-    (17) constDeclaration -> . USE CONSTANT IDENTIFIER CONST_ASSIGN variableType
-    (18) funcDeclaration -> . PRINT LEFT_PAR factor RIGHT_PAR
-    (19) funcDeclaration -> . PRINT LEFT_PAR sumLessExpression RIGHT_PAR
-    (8) variable -> . DOLLAR IDENTIFIER
-    (30) expression -> . logicalExp
-    (31) expression -> . sumLessExpression
-    (25) conditionalStmt -> . matchedif
-    (26) conditionalStmt -> . unmatchedif
-    (29) loopStmt -> . WHILE LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE
-    (32) logicalExp -> . TRUE OR andExp
-    (33) logicalExp -> . FALSE OR andExp
-    (34) logicalExp -> . andExp
-    (20) sumLessExpression -> . variable PLUS_ONE
-    (21) sumLessExpression -> . variable MINUS_ONE
-    (27) matchedif -> . IF LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE ELSE LEFT_BRACE declarationList RIGHT_BRACE
-    (28) unmatchedif -> . IF LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE
-    (35) andExp -> . TRUE AND compExp
-    (36) andExp -> . FALSE AND compExp
-    (37) andExp -> . compExp
-    (38) compExp -> . sumExp compSign sumExp
-    (39) compExp -> . sumExp
-    (46) sumExp -> . term sumSign sumExp
-    (47) sumExp -> . term
-    (50) term -> . multiNegExp multiSign term
-    (51) term -> . multiNegExp
-    (55) multiNegExp -> . unaryOp multiNegExp
-    (56) multiNegExp -> . factor
-    (57) unaryOp -> . MINUS
-    (58) unaryOp -> . PLUS
-    (59) factor -> . variable
-    (60) factor -> . variableType
-    (61) factor -> . IDENTIFIER
-    (62) factor -> . LEFT_PAR expression RIGHT_PAR
-    (13) variableType -> . number
-    (14) variableType -> . STRING
-    (15) variableType -> . TRUE
-    (16) variableType -> . FALSE
-    (11) number -> . INTEGER
-    (12) number -> . FLOAT
+    (29) loopStmt -> WHILE LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList . RIGHT_BRACE
 
-    USE             shift and go to state 1
-    PRINT           shift and go to state 7
-    DOLLAR          shift and go to state 24
-    WHILE           shift and go to state 6
-    TRUE            shift and go to state 13
-    FALSE           shift and go to state 30
-    IF              shift and go to state 28
-    MINUS           shift and go to state 14
-    PLUS            shift and go to state 16
-    IDENTIFIER      shift and go to state 20
-    LEFT_PAR        shift and go to state 36
-    STRING          shift and go to state 10
-    INTEGER         shift and go to state 19
-    FLOAT           shift and go to state 32
+    RIGHT_BRACE     shift and go to state 99
 
-    varDeclaration                 shift and go to state 2
-    variableType                   shift and go to state 3
-    matchedif                      shift and go to state 4
-    number                         shift and go to state 11
-    loopStmt                       shift and go to state 5
-    logicalExp                     shift and go to state 8
-    multiNegExp                    shift and go to state 9
-    conditionalStmt                shift and go to state 12
-    statement                      shift and go to state 17
-    factor                         shift and go to state 18
-    sumLessExpression              shift and go to state 21
-    constDeclaration               shift and go to state 22
-    declarationList                shift and go to state 99
-    andExp                         shift and go to state 29
-    declaration                    shift and go to state 26
-    variable                       shift and go to state 27
-    term                           shift and go to state 25
-    unaryOp                        shift and go to state 31
-    compExp                        shift and go to state 33
-    sumExp                         shift and go to state 34
-    funcDeclaration                shift and go to state 35
-    unmatchedif                    shift and go to state 37
-    expression                     shift and go to state 38
 
 state 98
 
-    (29) loopStmt -> WHILE LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList . RIGHT_BRACE
+    (27) matchedif -> IF LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList . RIGHT_BRACE ELSE LEFT_BRACE declarationList RIGHT_BRACE
+    (28) unmatchedif -> IF LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList . RIGHT_BRACE
 
     RIGHT_BRACE     shift and go to state 100
 
 
 state 99
-
-    (27) matchedif -> IF LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList . RIGHT_BRACE ELSE LEFT_BRACE declarationList RIGHT_BRACE
-    (28) unmatchedif -> IF LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList . RIGHT_BRACE
-
-    RIGHT_BRACE     shift and go to state 101
-
-
-state 100
 
     (29) loopStmt -> WHILE LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE .
 
@@ -2881,12 +2865,12 @@ state 100
     RIGHT_BRACE     reduce using rule 29 (loopStmt -> WHILE LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE .)
 
 
-state 101
+state 100
 
     (27) matchedif -> IF LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE . ELSE LEFT_BRACE declarationList RIGHT_BRACE
     (28) unmatchedif -> IF LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE .
 
-    ELSE            shift and go to state 102
+    ELSE            shift and go to state 101
     IF              reduce using rule 28 (unmatchedif -> IF LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE .)
     WHILE           reduce using rule 28 (unmatchedif -> IF LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE .)
     USE             reduce using rule 28 (unmatchedif -> IF LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE .)
@@ -2905,14 +2889,14 @@ state 101
     RIGHT_BRACE     reduce using rule 28 (unmatchedif -> IF LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE .)
 
 
-state 102
+state 101
 
     (27) matchedif -> IF LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE ELSE . LEFT_BRACE declarationList RIGHT_BRACE
 
-    LEFT_BRACE      shift and go to state 103
+    LEFT_BRACE      shift and go to state 102
 
 
-state 103
+state 102
 
     (27) matchedif -> IF LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE ELSE LEFT_BRACE . declarationList RIGHT_BRACE
     (2) declarationList -> . declaration declarationList
@@ -2921,7 +2905,7 @@ state 103
     (5) declaration -> . statement
     (6) declaration -> . constDeclaration
     (7) declaration -> . funcDeclaration
-    (9) varDeclaration -> . variable ASSIGN variableType
+    (9) varDeclaration -> . variable ASSIGN sumExp
     (10) varDeclaration -> . variable ASSIGN STDIN
     (22) statement -> . expression
     (23) statement -> . conditionalStmt
@@ -2951,25 +2935,25 @@ state 103
     (47) sumExp -> . term
     (50) term -> . multiNegExp multiSign term
     (51) term -> . multiNegExp
-    (55) multiNegExp -> . unaryOp multiNegExp
-    (56) multiNegExp -> . factor
-    (57) unaryOp -> . MINUS
-    (58) unaryOp -> . PLUS
-    (59) factor -> . variable
-    (60) factor -> . variableType
-    (61) factor -> . IDENTIFIER
-    (62) factor -> . LEFT_PAR expression RIGHT_PAR
-    (13) variableType -> . number
+    (54) multiNegExp -> . unaryOp multiNegExp
+    (55) multiNegExp -> . factor
+    (56) unaryOp -> . MINUS
+    (57) unaryOp -> . PLUS
+    (58) factor -> . variable
+    (59) factor -> . variableType
+    (60) factor -> . IDENTIFIER
+    (61) factor -> . LEFT_PAR expression RIGHT_PAR
+    (11) variableType -> . number
     (14) variableType -> . STRING
     (15) variableType -> . TRUE
     (16) variableType -> . FALSE
-    (11) number -> . INTEGER
-    (12) number -> . FLOAT
+    (12) number -> . INTEGER
+    (13) number -> . FLOAT
 
     USE             shift and go to state 1
-    PRINT           shift and go to state 7
+    PRINT           shift and go to state 6
     DOLLAR          shift and go to state 24
-    WHILE           shift and go to state 6
+    WHILE           shift and go to state 5
     TRUE            shift and go to state 13
     FALSE           shift and go to state 30
     IF              shift and go to state 28
@@ -2982,10 +2966,10 @@ state 103
     FLOAT           shift and go to state 32
 
     varDeclaration                 shift and go to state 2
-    variableType                   shift and go to state 3
-    matchedif                      shift and go to state 4
+    variableType                   shift and go to state 7
+    matchedif                      shift and go to state 3
     number                         shift and go to state 11
-    loopStmt                       shift and go to state 5
+    loopStmt                       shift and go to state 4
     logicalExp                     shift and go to state 8
     multiNegExp                    shift and go to state 9
     conditionalStmt                shift and go to state 12
@@ -2993,7 +2977,7 @@ state 103
     factor                         shift and go to state 18
     sumLessExpression              shift and go to state 21
     constDeclaration               shift and go to state 22
-    declarationList                shift and go to state 104
+    declarationList                shift and go to state 103
     andExp                         shift and go to state 29
     declaration                    shift and go to state 26
     variable                       shift and go to state 27
@@ -3005,14 +2989,14 @@ state 103
     unmatchedif                    shift and go to state 37
     expression                     shift and go to state 38
 
-state 104
+state 103
 
     (27) matchedif -> IF LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE ELSE LEFT_BRACE declarationList . RIGHT_BRACE
 
-    RIGHT_BRACE     shift and go to state 105
+    RIGHT_BRACE     shift and go to state 104
 
 
-state 105
+state 104
 
     (27) matchedif -> IF LEFT_PAR logicalExp RIGHT_PAR LEFT_BRACE declarationList RIGHT_BRACE ELSE LEFT_BRACE declarationList RIGHT_BRACE .
 
