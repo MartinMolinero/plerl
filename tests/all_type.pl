@@ -4,3 +4,4 @@ $bar = false
 $xyz = 10
 $abc = 10.89
 $e = "enemy"
+$foo = 2
