@@ -44,7 +44,7 @@ tokens = tokens + list(reserved.values())
 
 # definition of the regex to define every token in the token list
 t_STDIN = r'<STDIN>'
-t_STRING = r'\"(.)*\"'
+t_STRING = r'\".*?\"'
 t_AND = r'&&'
 t_ASSIGN = r'='
 t_CONST_ASSIGN = r'=>'

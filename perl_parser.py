@@ -117,6 +117,30 @@ def p_variable(p):
 
 
 def p_varDeclaration(p):
+    'varDeclaration : variable ASSIGN logicalExp'
+
+    tup = Tup()
+    assign = Node('=', p[2])
+    p[0] = Node('variable declaration', p[3].value, p[3].type, [p[1], assign, p[3]])
+    varname = ''
+    for i in range(len(p[1].children)):
+        varname += p[1].children[i].value
+    tup.variable = varname
+    tup.value = p[3].value
+    tup.type = p[3].type
+    temp = 0
+    if stack.find(varname) == -1:
+        if(tup.value is None or tup.type is None):
+            semantic_err.append("variable " + tup.variable + " not well defined")
+        else:
+            stack.push(tup)
+    else:
+        temp = stack.find(varname)
+        temp.value = p[3].value
+        temp.type = p[3].type
+
+
+def p_varDeclaration1(p):
     'varDeclaration : variable ASSIGN sumExp'
 
     tup = Tup()
@@ -131,29 +155,17 @@ def p_varDeclaration(p):
     temp = 0
     if stack.find(varname) == -1:
         if(tup.value is None or tup.type is None):
-            semantic_err.append("variable" + tup.variable + " not well defined")
+            semantic_err.append("variable " + tup.variable + " not well defined")
         else:
             stack.push(tup)
     else:
         temp = stack.find(varname)
         temp.value = p[3].value
         temp.type = p[3].type
-    
+    #code_str = "%s = %s" % (varname,p[3].value)
+    #code = 'print('+code_str +')'
+    #exec(code)
 
-
-'''def p_varDeclaration1(p):
-    'varDeclaration : variable ASSIGN variableType'
-
-    tup = Tup()
-    assign = Node('=', p[2])
-    p[0] = Node('variable declaration', None, None, [p[1], assign, p[3]])
-    varname = ''
-    for i in range(len(p[1].children)):
-        varname += p[1].children[i].value
-    tup.variable = varname
-    tup.value = p[3].children[0].value
-    tup.type = p[3].children[0].type
-    stack.push(tup)'''
 
 
 def p_varDeclaration2(p):
@@ -182,7 +194,6 @@ def p_number2(p):
 
 def p_variableType2(p):
     'variableType : STRING'
-
     string = Node('str', p[1].encode('ascii','ignore'), 'String')
     p[0] = Node('string variable', string.value, string.type, [string])
 
@@ -219,16 +230,29 @@ def p_constDeclaration(p):
         temp = stack.find(varname)
         temp.value = p[5].value
         temp.type = p[5].type
-    code_str = '' + varname + '=' + p[5].value + ''
-    exec(code_str)
 
 def p_funcDeclaration(p):
     'funcDeclaration : PRINT LEFT_PAR factor RIGHT_PAR'
-
     pr = Node('print', p[1])
     lp = Node('left par', p[2])
     rp = Node('right par', p[4])
-    p[0] = Node('print variable vt', None, [pr, lp, p[3] ,rp, ])
+    p[0] = Node('print variable vt', None, None, [pr, lp, p[3] ,rp])
+    temp = stack.find(p[3])
+    varname = ''
+    var_node = p[3].children[0]
+    factor_type = p[3].type
+    if(factor_type == 'Bool' or factor_type == 'Num' or factor_type == 'String'):
+        factor_type = 'VAR'
+    for i in range(len(var_node.children)):
+        varname += var_node.children[i].value
+    if(factor_type == 'None'):
+        print(p[3].value)
+    elif(factor_type == 'Var'):
+        if stack.find(varname) == -1:
+            semantic_err.append("undefined variable " + varname)
+        else:
+            temp = stack.find(varname)
+            print("result ", temp.value)
 
 
 def p_funcDeclaration2(p):
@@ -237,7 +261,7 @@ def p_funcDeclaration2(p):
     pr = Node('print', p[1])
     lp = Node('left par', p[2])
     rp = Node('right par', p[4])
-    p[0] = Node('print sum less', None, [pr, lp, p[3], rp])
+    p[0] = Node('print sum less', None, None, [pr, lp, p[3], rp])
 
 
 
@@ -327,12 +351,6 @@ def p_loopStmt(p):
     rb = Node('right brace',p[7])
     p[0] = Node('while', None, None, [wh, lp, p[3], rp,lb, p[6], rb])
 
-'''def p_expression(p):
-    'expression : variable EQ expression'
-    #print("assignation")
-    wh = Node('eq', p[2])
-    p[0] = Node('expression equal', None, [p[1], eq , p[3]])'''
-
 def p_expression2(p):
     'expression : logicalExp'
     p[0] = Node('expression logical', None, None,  [p[1]])
@@ -342,55 +360,41 @@ def p_expression3(p):
     p[0] = Node('expression sumless ++ -- ', None, None, [p[1]])
 
 def p_logicalExp3(p):
-    'logicalExp : TRUE OR andExp'
+    'logicalExp : factor OR andExp'
 
     t = Node('true',p[1], 'Bool')
     o = Node('or',p[2],"logical")
-    p[0] = Node('logical exp true', None, 'Bool' [t,o, p[3]])
+    p[0] = Node('logical exp true', None, 'Bool', [t,o, p[3]])
     temp_bool_value = False
-    if (True or p[3].value):
-        temp_bool_value = True
-    p[0].value = temp_bool_value
-
-def p_logicalExp4(p):
-    'logicalExp : FALSE OR andExp'
-
-    f = Node('false',p[1], 'Bool')
-    o = Node('or', p[2])
-    p[0] = Node('logical exp false', None, 'Bool', [f,o, p[3]])
-    temp_bool_value = False
-    if (False or p[3].value):
-        temp_bool_value = True
-    p[0].value = temp_bool_value
+    temp_type = p[3].type
+    if (temp_type == p[1].type and p[1].type == 'Bool'):
+        if (True and p[3].value):
+            temp_bool_value = True
+        p[0].value = temp_bool_value
+    else:
+        str_error = "Semantic error not matching type " + p[1].type + " and " + p[3].type + " for operator " + o.value
+        semantic_err.append(str_error)
 
 def p_logicalExp5(p):
     'logicalExp : andExp'
-
     p[0] = Node('logical exp and', p[1].value, 'Bool', [p[1]])
 
 
 
 def p_andExp3(p):
-    'andExp : TRUE AND compExp'
-
+    'andExp : factor AND compExp'
     t = Node('true', p[1], 'Bool')
     a = Node('and',  p[2])
     p[0] = Node('and exp true', None, t.type, [t,a, p[3]])
     temp_bool_value = False
-    if (True and p[3].value):
-        temp_bool_value = True
-    p[0].value = temp_bool_value
-
-def p_andExp4(p):
-    'andExp : FALSE AND compExp'
-
-    f = Node('false',  p[1], 'Bool')
-    a = Node('and',  p[2])
-    p[0] = Node('and exp false', None, f.type, [f,a, p[3]])
-    temp_bool_value = False
-    if (False and p[3].value):
-        temp_bool_value = True
-    p[0].value = temp_bool_value
+    temp_type = p[3].type
+    if (temp_type == p[1].type and p[1].type == 'Bool'):
+        if (True and p[3].value):
+            temp_bool_value = True
+        p[0].value = temp_bool_value
+    else:
+        str_error = "Semantic error not matching type " + p[1].type + " and " + p[3].type + " for operator " + a.value
+        semantic_err.append(str_error)
 
 def p_andExp5(p):
     'andExp : compExp'
@@ -465,11 +469,18 @@ def p_sumExp(p):
     if p[3].type == aux_type:
         p[0].type = aux_type
         if p[2].value == '+':
-            aux_val = float(p[1].value) + float(p[3].value)
-            p[0].value = aux_val
+            if p[3].type == 'Num' and p[3].type == p[1].type:
+                aux_val = float(p[1].value) + float(p[3].value)
+                p[0].value = aux_val
+            else:
+                semantic_err.append("Semantic error not matching type " + p[1].type + " and " + p[3].type + " for operator " + p[2].value)
+
         if p[2].value == '-':
-            aux_val = float(p[1].value) - float(p[3].value)
-            p[0].value = aux_val
+            if p[3].type == 'Num' and p[3].type == p[1].type:
+                aux_val = float(p[1].value) - float(p[3].value)
+                p[0].value = aux_val
+            else:
+                semantic_err.append("Semantic error not matching type " + p[1].type + " and " + p[3].type + " for operator " + p[2].value)
     else:
         str_error = "Semantic error not matching type " + p[1].type + " and " + p[3].type + " for operator " + p[2].value
         semantic_err.append(str_error)
@@ -495,18 +506,23 @@ def p_sumSign2(p):
 
 def p_term(p):
     'term : multiNegExp multiSign term'
-
     p[0] = Node('term to multiNegExp', None, None, [p[1], p[2], p[3]])
     aux_type = p[1].type
     aux_val = 0
     if p[3].type == aux_type:
         p[0].type = aux_type
         if p[2].value == '*':
-            aux_val = float(p[1].value) * float(p[3].value)
-            p[0].value = aux_val
+            if p[3].type == 'Num' and p[3].type == p[1].type:
+                aux_val = float(p[1].value) * float(p[3].value)
+                p[0].value = aux_val
+            else:
+                semantic_err.append("Semantic error not matching type " + p[1].type + " and " + p[3].type + " for operator " + p[2].value)
         if p[2].value == '/':
-            aux_val = float(p[1].value) / float(p[3].value)
-            p[0].value = aux_val
+            if p[3].type == 'Num' and p[3].type == p[1].type:
+                aux_val = float(p[1].value) / float(p[3].value)
+                p[0].value = aux_val
+            else:
+                semantic_err.append("Semantic error not matching type " + p[1].type + " and " + p[3].type + " for operator " + p[2].value)
     else:
         str_error = "Semantic error not matching type " + p[1].type + " and " + p[3].type + " for operator " + p[2].value
         semantic_err.append(str_error)
@@ -532,12 +548,11 @@ def p_multiSign3(p):
 
 def p_multiNegExp(p):
     'multiNegExp : unaryOp multiNegExp'
-
     p[0] = Node('multineg - unary', None, p[2].type, [p[1], p[2]])
     aux_val = p[2].value
     aux_op = p[1].value
     if aux_op == '-':
-        aux_val = -aux_val
+        aux_val = -int(aux_val)
         p[0].value = aux_val
 
 
@@ -570,19 +585,23 @@ def p_factor(p):
     else:
         p[0].type = tup_val.type
         p[0].value = tup_val.value
-    print("VARIABLE", p[0].__dict__)
 
 
 def p_factor2(p):
     'factor : variableType'
-
     p[0] = Node('factor - variableType', p[1].value, p[1].type, [p[1]])
 
 
 def p_factor3(p):
     'factor : IDENTIFIER'
-
-    p[0] = Node('ID', p[1])
+    p[0] = Node('ID', p[1], 'ID')
+    varname = p[1]
+    tup_val = stack.find(varname)
+    if tup_val == -1:
+        semantic_err.append("identifier "+ varname + " is not declared")
+    else:
+        p[0].type = tup_val.type
+        p[0].value = tup_val.value
 
 
 def p_factor4(p):
