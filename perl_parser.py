@@ -217,7 +217,7 @@ def p_constDeclaration(p):
     p[0] = Node('constant declaration', p[5].value, p[5].type, [use, c, id, ca ,p[5]])
 
     tup = Tup()
-    varname = c.value
+    varname = id.value
     tup.variable = varname
     tup.value = p[5].value
     tup.type = p[5].type

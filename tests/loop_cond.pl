@@ -5,7 +5,7 @@ this is a multiline comment
 yes
 */
 $foo = 3 * 2 / 2 + 2
-while($foo > 2){
+while($foo){
   #this is a single line comment
   $var = "Variable inside while"
   print($foo++)
